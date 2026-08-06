@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS Admin Panel User Guide</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #334155;
+      background-color: #f8fafc;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    
+    /* Layout */
+    .container {
+      display: flex;
+      min-h-screen: 100vh;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    /* Sticky Sidebar Table of Contents */
+    .sidebar {
+      width: 280px;
+      background-color: #ffffff;
+      border-right: 1px border #e2e8f0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      flex-shrink: 0;
+    }
+    
+    .sidebar-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      padding-bottom: 0.75rem;
+      border-b: 2px solid #10b981;
+    }
+    
+    .toc-list {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .toc-item a {
+      color: #64748b;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: block;
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.375rem;
+      transition: all 0.2s ease;
+    }
+    
+    .toc-item a:hover {
+      color: #059669;
+      background-color: #f0fdf4;
+    }
+    
+    .toc-item.active a {
+      color: #047857;
+      background-color: #d1fae5;
+      font-weight: 600;
+    }
+    
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      padding: 2rem 3rem;
+      background-color: #f8fafc;
+      min-width: 0;
+    }
+    
+    header.doc-header {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 1.5rem;
+    }
+    
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    
+    .subtitle {
+      font-size: 1rem;
+      color: #64748b;
+      margin-top: 0.25rem;
+    }
+    
+    /* Header Controls */
+    .header-controls {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    
+    .search-box {
+      position: relative;
+    }
+    
+    .search-input {
+      padding: 0.6rem 1rem 0.6rem 2.25rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      width: 250px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    
+    .search-input:focus {
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      width: 16px;
+      height: 16px;
+      pointer-events: none;
+    }
+    
+    .btn-action {
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+      padding: 0.6rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-action:hover {
+      background-color: #f1f5f9;
+      border-color: #94a3b8;
+    }
+    
+    .btn-print {
+      background-color: #10b981;
+      color: white;
+      border: none;
+    }
+    
+    .btn-print:hover {
+      background-color: #059669;
+    }
+    
+    /* Documentation Cards / Sections */
+    .doc-section {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      scroll-margin-top: 1.5rem;
+    }
+    
+    .doc-section h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    
+    /* Badges */
+    .badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+    
+    .badge-visible {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    
+    .badge-admin {
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+    
+    .badge-important {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    
+    .badge-hidden {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+    
+    /* Text formatting inside sections */
+    p {
+      margin-bottom: 1rem;
+      color: #475569;
+    }
+    
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.25rem;
+      color: #475569;
+    }
+    
+    li {
+      margin-bottom: 0.5rem;
+    }
+    
+    strong {
+      color: #0f172a;
+    }
+    
+    /* Section info dividers */
+    .section-meta {
+      background-color: #f8fafc;
+      border-left: 4px solid #10b981;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+    
+    .section-meta p {
+      margin-bottom: 0.5rem;
+    }
+    .section-meta p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .common-mistakes {
+      background-color: #fffaf0;
+      border-left: 4px solid #f59e0b;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+    
+    .common-mistakes p {
+      margin-bottom: 0.5rem;
+    }
+    
+    .common-mistakes p:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* Action steps */
+    .steps-list {
+      list-style-type: none;
+      counter-reset: step-counter;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-left: 0;
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .steps-list li {
+      position: relative;
+      padding-left: 2.75rem;
+      min-height: 2rem;
+    }
+    
+    .steps-list li::before {
+      counter-increment: step-counter;
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2rem;
+      height: 2rem;
+      background-color: #10b981;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+    
+    /* Screenshot cards */
+    .screenshot-card {
+      margin: 18px 0;
+      padding: 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    .screenshot-card img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      display: block;
+    }
+
+    .screenshot-card figcaption {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #64748b;
+      text-align: center;
+    }
+
+    /* Screenshot placeholders (fallback) */
+    .screenshot-placeholder {
+      background-color: #f1f5f9;
+      border: 2px dashed #cbd5e1;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    .screenshot-placeholder svg {
+      width: 28px;
+      height: 28px;
+      stroke: #94a3b8;
+    }
+    
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background-color: #10b981;
+      color: white;
+      border: none;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      transition: all 0.2s ease;
+      z-index: 100;
+    }
+    
+    .back-to-top:hover {
+      background-color: #059669;
+      transform: translateY(-2px);
+    }
+    
+    /* Mobile Navigation Dropdown */
+    .mobile-nav-container {
+      display: none;
+      width: 100%;
+      background-color: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+    
+    .mobile-nav-select {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid #cbd5e1;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background-color: #ffffff;
+      color: #0f172a;
+      outline: none;
+    }
+    
+    /* Warning panel */
+    .warning-panel {
+      background-color: #fef2f2;
+      border-left: 4px solid #ef4444;
+      padding: 1rem;
+      border-radius: 0 0.5rem 0.5rem 0;
+      margin: 1rem 0;
+    }
+    
+    .warning-panel h4 {
+      color: #991b1b;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .warning-panel p {
+      color: #7f1d1d;
+      margin-bottom: 0;
+      font-size: 0.9rem;
+    }
+
+    /* Print styles */
+    @media print {
+      .sidebar, .header-controls, .back-to-top, .mobile-nav-container, .btn-action {
+        display: none !important;
+      }
+      .main-content {
+        padding: 0 !important;
+      }
+      body {
+        background-color: white !important;
+      }
+      .doc-section {
+        border: none !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+        padding: 0 !important;
+        margin-bottom: 3rem !important;
+      }
+    }
+    
+    /* Responsive breakpoints */
+    @media (max-width: 1024px) {
+      .sidebar {
+        display: none;
+      }
+      .mobile-nav-container {
+        display: block;
+      }
+      .main-content {
+        padding: 1.5rem;
+      }
+      header.doc-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-controls {
+        width: 100%;
+      }
+      .search-box, .search-input {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile navigation selector -->
+  <div class="mobile-nav-container">
+    <select class="mobile-nav-select" onchange="window.location.hash = this.value">
+      <option value="#intro">-- Table of Contents --</option>
+      <option value="#intro">1. Introduction</option>
+      <option value="#login">2. Login Guide</option>
+      <option value="#dashboard">3. Dashboard Overview</option>
+      <option value="#sliders">4. Sliders / Hero Banners</option>
+      <option value="#projects">5. Projects</option>
+      <option value="#events">6. Events</option>
+      <option value="#awards">7. Awards & Certifications</option>
+      <option value="#blogs">8. Blogs / Recent News</option>
+      <option value="#contacts">9. Contact Enquiries</option>
+      <option value="#careers">10. Career Job Openings</option>
+      <option value="#career-apps">11. Career Applications</option>
+      <option value="#client-partners">12. Clients & Partners</option>
+      <option value="#solar-products">13. Solar Products</option>
+      <option value="#image-guide">14. Image Upload Guide</option>
+      <option value="#status-guide">15. Status & Visibility Guide</option>
+      <option value="#ordering-guide">16. Ordering & Layout Guide</option>
+      <option value="#safe-editing">17. Safe Editing Rules</option>
+      <option value="#troubleshooting">18. Troubleshooting Guide</option>
+      <option value="#hidden-modules">19. Currently Hidden Modules</option>
+    </select>
+  </div>
+
+  <div class="container">
+    <!-- Desktop Sticky Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-title">User Guide</div>
+      <nav>
+        <ul class="toc-list">
+          <li class="toc-item active" data-target="intro"><a href="#intro">1. Introduction</a></li>
+          <li class="toc-item" data-target="login"><a href="#login">2. Login Guide</a></li>
+          <li class="toc-item" data-target="dashboard"><a href="#dashboard">3. Dashboard</a></li>
+          <li class="toc-item" data-target="sliders"><a href="#sliders">4. Sliders / Hero Banners</a></li>
+          <li class="toc-item" data-target="projects"><a href="#projects">5. Projects</a></li>
+          <li class="toc-item" data-target="events"><a href="#events">6. Events</a></li>
+          <li class="toc-item" data-target="awards"><a href="#awards">7. Awards & Certifications</a></li>
+          <li class="toc-item" data-target="blogs"><a href="#blogs">8. Blogs & News</a></li>
+          <li class="toc-item" data-target="contacts"><a href="#contacts">9. Contact Enquiries</a></li>
+          <li class="toc-item" data-target="careers"><a href="#careers">10. Career Openings</a></li>
+          <li class="toc-item" data-target="career-apps"><a href="#career-apps">11. Career Applications</a></li>
+          <li class="toc-item" data-target="client-partners"><a href="#client-partners">12. Clients & Partners</a></li>
+          <li class="toc-item" data-target="solar-products"><a href="#solar-products">13. Solar Products</a></li>
+          <li class="toc-item" data-target="image-guide"><a href="#image-guide">14. Image Upload Guide</a></li>
+          <li class="toc-item" data-target="status-guide"><a href="#status-guide">15. Status & Visibility</a></li>
+          <li class="toc-item" data-target="ordering-guide"><a href="#ordering-guide">16. Ordering Guide</a></li>
+          <li class="toc-item" data-target="safe-editing"><a href="#safe-editing">17. Safe Editing Rules</a></li>
+          <li class="toc-item" data-target="troubleshooting"><a href="#troubleshooting">18. Troubleshooting</a></li>
+          <li class="toc-item" data-target="hidden-modules"><a href="#hidden-modules">19. Hidden Modules</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content Panel -->
+    <main class="main-content">
+      <header class="doc-header">
+        <div>
+          <h1>CMS Admin Panel User Guide</h1>
+          <p class="subtitle">A complete non-technical guide to managing content on the Group and Solar websites</p>
+        </div>
+        <div class="header-controls">
+          <div class="search-box">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" class="search-input" id="search-bar" placeholder="Search guide topics..." onkeyup="filterGuide()">
+          </div>
+          <button class="btn-action btn-print" onclick="window.print()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+            Print Guide
+          </button>
+        </div>
+      </header>
+
+      <!-- 1. Introduction -->
+      <section id="intro" class="doc-section">
+        <h2>1. Introduction</h2>
+        <div class="badge-container">
+          <span class="badge badge-admin">System Overview</span>
+        </div>
+        <p>Welcome to your <strong>CMS (Content Management System) Admin Panel User Guide</strong>. This panel serves as the central control room for updating information, managing media, and reading inquiries submitted by visitors on your website network (Group, Solar, Concrete, and Enterprises websites).</p>
+        <p>This user guide is written specifically for content administrators. No coding knowledge is required. Keep this guide open in a separate tab while editing to refer back to guidelines, field requirements, and image dimensions.</p>
+        
+        <div class="section-meta">
+          <p><strong>Core Golden Rules:</strong></p>
+          <ul>
+            <li><strong>Live Updates</strong>: Any modifications saved in this admin panel will apply to the live websites immediately.</li>
+            <li><strong>Drafts & Inactive Toggles</strong>: Use the status field to control visibility. Set items to <strong>Inactive</strong> or <strong>Draft</strong> if you want to save your progress without making them public yet.</li>
+            <li><strong>Browser Caching</strong>: If you save changes but don't see them on the frontend, don't worry! Your browser may be caching the old page. Hold down Shift and click Refresh to reload it.</li>
+          </ul>
+        </div>
+        <figure class="screenshot-card">
+          <img src="./screenshots/documentation-button.png" alt="Documentation button in admin header" loading="lazy">
+          <figcaption>The "Documentation" button in the admin panel header — click it anytime to reopen this guide.</figcaption>
+        </figure>
+      </section>
+
+      <!-- 2. Login Guide -->
+      <section id="login" class="doc-section">
+        <h2>2. Login Guide</h2>
+        <div class="badge-container">
+          <span class="badge badge-admin">Access Control</span>
+        </div>
+        <p>To access the administrative dashboard, navigate to the admin portal link provided by the developer.</p>
+        <figure class="screenshot-card">
+          <img src="./screenshots/login.png" alt="Admin panel login screen" loading="lazy">
+          <figcaption>Admin panel login screen — enter your email and password to access the dashboard.</figcaption>
+        </figure>
+        <p>Follow these steps to log in:</p>
+        <ol class="steps-list">
+          <li>Enter your registered administrator email address.</li>
+          <li>Enter your secure password in the password field.</li>
+          <li>Click the <strong>Login</strong> button.</li>
+          <li>Upon successful verification, you will be redirected directly to the statistical Dashboard overview page.</li>
+        </ol>
+        <div class="common-mistakes">
+          <p><strong>What to do if login fails:</strong></p>
+          <p>Check if caps lock is turned on. Ensure no extra blank spaces are added at the start or end of the email address. If you've forgotten your login credentials, please contact the developer to initiate a manual credentials reset.</p>
+        </div>
+      </section>
+
+      <!-- 3. Dashboard -->
+      <section id="dashboard" class="doc-section">
+        <h2>3. Dashboard</h2>
+        <div class="badge-container">
+          <span class="badge badge-admin">Quick Statistics</span>
+        </div>
+        <figure class="screenshot-card">
+          <img src="./screenshots/dashboard.png" alt="Admin panel dashboard overview" loading="lazy">
+          <figcaption>Dashboard overview — shows live counts and quick navigation to all modules.</figcaption>
+        </figure>
+        <p>The Dashboard acts as your central control overview page. It provides a visual snapshot of the database content and applicant statuses.</p>
+        <p><strong>Available Cards & Indicators:</strong></p>
+        <ul>
+          <li><strong>Total Sliders, Projects, Events, Blogs, and Partners</strong>: Displays the overall count of existing records in each category.</li>
+          <li><strong>Contact Enquiries</strong>: Keep track of incoming customer queries. Check this regularly to ensure timely follow-ups.</li>
+          <li><strong>Careers & Applications Funnel</strong>: Shows a live breakdown of total job applications, new submissions, shortlisted applicants, interviews scheduled, and hired candidates.</li>
+        </ul>
+        <p>This screen is purely informational and serves as a launching pad to direct your attention to modules requiring immediate action (like new resume applications or contact inquiries).</p>
+      </section>
+
+      <!-- 4. Sliders / Hero Banners -->
+      <section id="sliders" class="doc-section">
+        <h2>4. Sliders / Hero Banners</h2>
+        <div class="badge-container">
+          <span class="badge badge-visible">Visible on Website</span>
+        </div>
+        <p><strong>Where it appears on website:</strong> Large header banner slides at the very top of each site homepage.</p>
+        <p>Use this module to change the introductory sliders, seasonal banners, or hero titles that visitors see first.</p>
+        
+        <p><strong>Step-by-step editing guide:</strong></p>
+        <ol class="steps-list">
+          <li>Navigate to the <strong>Sliders</strong> page from the sidebar menu and click <strong>Add Slider</strong> (or click <strong>Edit</strong> on an existing one).</li>
+          <li>Select the target <strong>Website</strong> (e.g. Group, Solar, Concrete, or Enterprises) to determine where the banner will display.</li>
+          <li>Fill in the <strong>Title</strong> (main heading) and <strong>Subtitle</strong> (secondary line).</li>
+          <li>Define a <strong>Button Text</strong> (e.g. "Learn More") and paste the destination address in the <strong>Button Link</strong> field (e.g. `/projects` or `/solar-products`).</li>
+          <li>Upload your desktop and mobile images using the image upload tool (see Section 16 for size guide).</li>
+          <li>Set the <strong>Order</strong> weight (e.g., set to 1 if it should show up first).</li>
+          <li>Ensure the <strong>Status</strong> dropdown is toggled to <strong>Active</strong>. Click <strong>Save</strong>.</li>
+        </ol>
+
+        <figure class="screenshot-card">
+          <img src="./screenshots/sliders-list.png" alt="Sliders list screen" loading="lazy">
+          <figcaption>Sliders list screen — view all hero banners across websites.</figcaption>
+        </figure>
+        <figure class="screenshot-card">
+          <img src="./screenshots/slider-form.png" alt="Add Slider form" loading="lazy">
+          <figcaption>Add / Edit Slider form — fill in title, subtitle, button, images, order and status.</figcaption>
+        </figure>
+
+        <div class="common-mistakes">
+          <p><strong>Common Mistakes:</strong></p>
+          <p>Uploading vertical photos on the desktop view. Desktop banners require wide horizontal images, while mobile views require square or tall vertical crops. Uploading wrong layouts will crop or distort your home page banners.</p>
+        </div>
+      </section>
+
+      <!-- 5. Projects -->
+      <section id="projects" class="doc-section">
+        <h2>5. Projects</h2>
+        <div class="badge-container">
+          <span class="badge badge-visible">Visible on Website</span>
+        </div>
+        <p><strong>Where it appears on website:</strong> Located in the "Portfolio" or "Our Projects" sections, and as standalone project detail pages.</p>
+        
+        <p><strong>Step-by-step editing guide:</strong></p>
+        <ol class="steps-list">
+          <li>Open the <strong>Projects</strong> tab and click <strong>Add Project</strong>.</li>
+          <li>Select the <strong>Website</strong> which owns this project.</li>
+          <li>Fill out the <strong>Title</strong>. The system will automatically suggest a <strong>Slug</strong> (custom link identifier), but you can customize it if needed (use lowercase, hyphens, and no spaces).</li>
+          <li>Enter a brief **Short Description** (shows up in grids/lists) and the full detail write-up in the **Description** box.</li>
+          <li>Fill in extra metadata: **Category** (e.g. Residential, Industrial), **Location** (city/region), **Client Name**, and the **Project Date**.</li>
+          <li>Upload a primary **Featured Image** (covers card headers) and add multiple photos to the **Gallery** field to showcase close-up details.</li>
+          <li>Check the **Featured** box if you want this project highlighted on the website homepage.</li>
+          <li>Set the layout **Order** and select **Active** status. Click **Save**.</li>
+        </ol>
+
+        <figure class="screenshot-card">
+          <img src="./screenshots/projects-list.png" alt="Projects list screen" loading="lazy">
+          <figcaption>Projects list screen — manage all your company projects from here.</figcaption>
+        </figure>
+        <figure class="screenshot-card">
+          <img src="./screenshots/project-form.png" alt="Add Project form" loading="lazy">
+          <figcaption>Add / Edit Project form — enter title, description, category, images and status.</figcaption>
+        </figure>
+
+        <div class="common-mistakes">
+          <p><strong>Common Mistakes:</strong></p>
+          <p>Uploading massive camera image files directly. Gallery sections load multiple images simultaneously. Always crop and compress your gallery photos (aim for less than 500 KB per photo) to keep project pages loading quickly for mobile users.</p>
+        </div>
+      </section>
+
+      <!-- 6. Events -->
+      <section id="events" class="doc-section">
+        <h2>6. Events</h2>
+        <div class="badge-container">
+          <span class="badge badge-visible">Visible on Website</span>
+        </div>
+        <p><strong>Where it appears on website:</strong> Appears under the "Upcoming Events", "News", or "Exhibitions" sections on the website.</p>
+        
+        <p><strong>Step-by-step editing guide:</strong></p>
+        <ol class="steps-list">
+          <li>Go to the <strong>Events</strong> module and click <strong>Add Event</strong>.</li>
+          <li>Choose the website layout where this event belongs.</li>
+          <li>Type in the event <strong>Title</strong>, a short abstract summary, and write down details in the description.</li>
+          <li>Pick the correct date using the **Event Date** calendar picker.</li>
+          <li>Upload a **Featured Image** to represent the event, and choose supplementary event photographs for the **Gallery**.</li>
+          <li>Set the **Order** value to coordinate its place on list feeds, change status to **Active**, and click **Save**.</li>
+        </ol>
+
+        <figure class="screenshot-card">
+          <img src="./screenshots/events-list.png" alt="Events list screen" loading="lazy">
+          <figcaption>Events list screen — all published and upcoming events in one view.</figcaption>
+        </figure>
+        <figure class="screenshot-card">
+          <img src="./screenshots/event-form.png" alt="Add Event form" loading="lazy">
+          <figcaption>Add / Edit Event form — set title, date, description, images and status.</figcaption>
+        </figure>
+      </section>
+
+      <!-- 7. Awards & Certifications -->
+      <section id="awards" class="doc-section">
+        <h2>7. Awards & Certifications</h2>
+        <div class="badge-container">
+          <span class="badge badge-visible">Visible on Website</span>
+        </div>
+        <p><strong>Where it appears on website:</strong> In the achievements showcase grid or certifications slider on the About Us page.</p>
+        
+        <p><strong>Step-by-step editing guide:</strong></p>
+        <ol class="steps-list">
+          <li>Select <strong>Awards & Certifications</strong> in the admin menu and click <strong>Add Award / Certification</strong>.</li>
+          <li>Set the destination <strong>Website</strong> scope.</li>
+          <li>Provide a clean, descriptive <strong>Title</strong> (e.g. "ISO 9001:2015 Quality Certification").</li>
+          <li>Pick the **Type**: choose "Award" for corporate accolades, or "Certification" for compliance badges.</li>
+          <li>Add a summary in **Short Description** explaining what the certificate represents.</li>
+          <li>Upload an **Image** of the award logo, certificate document, or trophy.</li>
+          <li>Toggle **Featured** on if this accolade represents a primary company credential.</li>
+          <li>Assign an **Order** weight, set the status to **Active**, and click **Save**.</li>
+        </ol>
+
+        <figure class="screenshot-card">
+          <img src="./screenshots/awards-list.png" alt="Awards and Certifications list screen" loading="lazy">
+          <figcaption>Awards &amp; Certifications list — view all awards and compliance certificates.</figcaption>
+        </figure>
+        <figure class="screenshot-card">
+          <img src="./screenshots/award-form.png" alt="Add Award form" loading="lazy">
+          <figcaption>Add / Edit Award form — enter title, type, short description, image and status.</figcaption>
+        </figure>
+      </section>
+
+      <!-- 8. Blogs / Recent News -->
+      <section id="blogs" class="doc-section">
+        <h2>8. Blogs / Recent News</h2>
+        <div class="badge-container">
+          <span class="badge badge-visible">Visible on Website</span>
+        </div>
+        <p><strong>Where it appears on website:</strong> Under the main "Blog", "News", or "Insights" sections of the website.</p>
+        
+        <p><strong>Step-by-step editing guide:</strong></p>
+        <ol class="steps-list">
+          <li>Click <strong>Blogs / News</strong> and hit <strong>Add Blog</strong>.</li>
+          <li>Select the website and enter the blog <strong>Title</strong>. The page slug will generate automatically.</li>
+          <li>Write a hook in the **Short Description** to get readers' attention from the listings page, and insert the full article content in the main text editor area.</li>
+          <li>Upload a **Featured Image** (this will be the banner image at the top of the blog page).</li>
+          <li>Define category labels (e.g., "Solar Updates" or "Corporate News") and enter a list of keywords in the **Tags** field.</li>
+          <li>Record the **Author** name (who wrote the article) and select the official **Publish Date**.</li>
+          <li>Set the **Status** to **Published** to make it live instantly. Alternatively, leave it as **Draft** to save your work privately. Click **Save**.</li>
+        </ol>
+
+        <figure class="screenshot-card">
+          <img src="./screenshots/blogs-list.png" alt="Blogs list screen" loading="lazy">
+          <figcaption>Blogs / News list screen — manage all published and draft articles.</figcaption>
+        </figure>
+        <figure class="screenshot-card">
+          <img src="./screenshots/blog-form.png" alt="Add Blog form" loading="lazy">
+          <figcaption>Add / Edit Blog form — write title, content, category, tags, featured image and publish status.</figcaption>
+        </figure>
+      </section>
+
+      <!-- 9. Contacts / Enquiries -->
+      <section id="contacts" class="doc-section">
+        <h2>9. Contacts / Enquiries</h2>
+        <div class="badge-container">
+          <span class="badge badge-admin">Admin Read-Only</span>
+        </div>
+        <p><strong>Where it comes from:</strong> Sent automatically whenever a visitor fills out the "Get in Touch" or contact form on any of the websites.</p>
+        <p>This module stores contact details and customer requests securely in the database. <strong>You cannot create contact enquiries manually</strong> because the create button is disabled. It serves strictly as an incoming mailbox database.</p>
+        
+        <p><strong>How to manage inquiries:</strong></p>
+        <ol class="steps-list">
+          <li>Select the <strong>Contacts</strong> item from the sidebar to inspect the list of inquiries.</li>
+          <li>Click the **Edit/View** button on an enquiry to read the full query, email address, phone, subject, and the source website they reached out from.</li>
+          <li>After reviewing the query or replying to them via email, update the **Status** dropdown:
+            <ul>
+              <li><strong>New</strong>: Fresh, unread query.</li>
+              <li><strong>Read</strong>: Opened but no response sent yet.</li>
+              <li><strong>Replied</strong>: You have reached out to the client.</li>
+              <li><strong>Closed</strong>: Inquiry is resolved and archived.</li>
+            </ul>
+          </li>
+          <li>Click **Save** to update the inquiry status tracker.</li>
+        </ol>
+
+        <figure class="screenshot-card">
+          <img src="./screenshots/contacts-list.png" alt="Contact enquiries list" loading="lazy">
+          <figcaption>Contact Enquiries list — incoming customer messages from all websites.</figcaption>
+        </figure>
+      </section>
+
+      <!-- 10. Careers -->
+      <section id="careers" class="doc-section">
+        <h2>10. Careers / Job Openings</h2>
+        <div class="badge-container">
+          <span class="badge badge-visible">Visible on Website</span>
+        </div>
+        <p><strong>Where it appears on website:</strong> Listed in the "Careers" section, showing available employment vacancies.</p>
+        
+        <p><strong>Step-by-step vacancy posting guide:</strong></p>
+        <ol class="steps-list">
+          <li>Click <strong>Careers</strong> in the sidebar and choose <strong>Add Career</strong>.</li>
+          <li>Assign the vacancy to the correct website segment.</li>
+          <li>Fill out the **Job Title**, **Department** (e.g. Sales, Operations), **Location** (e.g., Hybrid, New Delhi), and **Job Type** (Full-time, Part-time, Internship, or Contract).</li>
+          <li>Provide recruitment details: expected **Experience** range, **Salary Range**, a **Short Description**, and the full **Description** detailing job details.</li>
+          <li>Use the list boxes to detail **Responsibilities**, **Requirements**, and required **Skills** (write one item per line).</li>
+          <li>Specify the **Application Deadline** calendar date.</li>
+          <li>Provide a dedicated **Apply Email** address or an external **Apply Link** if applicants must use a third-party portal.</li>
+          <li>Assign an ordering number, toggle status to **Active**, and click **Save**.</li>
+        </ol>
+      </section>
+
+      <!-- 11. Career Applications -->
+      <section id="career-apps" class="doc-section">
+        <h2>11. Career Applications</h2>
+        <div class="badge-container">
+          <span class="badge badge-admin">Admin Read-Only</span>
+        </div>
+        <p><strong>Where it comes from:</strong> Submitted directly by job seekers using the resume upload form on the Careers page.</p>
+        <p>This module operates as an internal HR database. Manual creation of applications is disabled in the UI. Open this module to review candidate profiles and download submitted resume files.</p>
+        
+        <p><strong>How to review applications:</strong></p>
+        <ol class="steps-list">
+          <li>Select the <strong>Career Applications</strong> module in the sidebar.</li>
+          <li>Find the candidate in the list, then click **Edit/View** to check the applicant's name, contact info, covering notes, and the specific job they applied for.</li>
+          <li>Click the **Resume URL** link or download button to view/save the applicant's CV file (Vite handles the secure file download).</li>
+          <li>Use the **Status** selector to document the applicant's current screening stage:
+            <ul>
+              <li><strong>New</strong>: Application received but unreviewed.</li>
+              <li><strong>Reviewed</strong>: CV reviewed by HR.</li>
+              <li><strong>Shortlisted</strong>: Candidate qualified for screening.</li>
+              <li><strong>Rejected</strong>: Application declined.</li>
+              <li><strong>Hired</strong>: Candidate successfully recruited.</li>
+            </ul>
+          </li>
+          <li>Save the form to record changes.</li>
+        </ol>
+      </section>
+
+
+      <!-- 12. Clients & Partners -->
+      <section id="client-partners" class="doc-section">
+        <h2>12. Clients & Partners</h2>
+        <div class="badge-container">
+          <span class="badge badge-visible">Visible on Website</span>
+        </div>
+        <p><strong>Where it appears on website:</strong> Logo slider or grid layout near the footer of the Home page or on the About Us page.</p>
+        
+        <p><strong>Step-by-step client/partner setup guide:</strong></p>
+        <ol class="steps-list">
+          <li>Open the <strong>Clients & Partners</strong> module and click <strong>Add Client / Partner</strong>.</li>
+          <li>Select the target website and type the company **Name**.</li>
+          <li>Upload the company **Logo** image (use horizontal logos with transparent background where possible).</li>
+          <li>Paste the company's website address in the **Website URL** field.</li>
+          <li>Set the **Type** dropdown: select **Client** to list it under client logos, or **Partner** for associate entities.</li>
+          <li>Assign the slider order sequence, toggle status to active, and click **Save**.</li>
+        </ol>
+      </section>
+
+      <!-- 13. Solar Products -->
+      <section id="solar-products" class="doc-section">
+        <h2>13. Solar Products</h2>
+        <div class="badge-container">
+          <span class="badge badge-visible">Visible on Website</span>
+        </div>
+        <p><strong>Where it appears on website:</strong> Products showcase catalog page on the Solar website.</p>
+        
+        <p><strong>Step-by-step product catalog guide:</strong></p>
+        <ol class="steps-list">
+          <li>Select <strong>Solar Products</strong> in the sidebar and hit <strong>Add Solar Product</strong>.</li>
+          <li>Fill in the **Product Title** (e.g. "Mono-PERC Solar Module 550W").</li>
+          <li>Select the correct category (e.g., Solar Panel, Inverter, Battery, Rooftop Kit, Accessories).</li>
+          <li>Fill in additional specification inputs: **Brand**, **Model Number**, a **Short Description**, and the full details.</li>
+          <li>Upload the main product image in the **Featured Image** field, and supplementary product angles to the **Gallery**.</li>
+          <li>Enter highlight lines (e.g., "25-year warranty") in the **Features** box (one line per entry).</li>
+          <li>Under **Specifications**, write key-value pairs (formatted as `Label: Value`, one per line, e.g., `Efficiency: 21.3%`).</li>
+          <li>Define pricing if public: input the numeric **Price**, set a pricing label (e.g. "Starts from"), and check **Show Price**.</li>
+          <li>Set custom CTA labels (e.g., CTA Text: "Enquire Now") and insert custom links or contact form hooks in **CTA Link**.</li>
+          <li>Tick **Featured** to highlight the product in home page sliders. Set the sorting order weight, toggle status to active, and save.</li>
+        </ol>
+      </section>
+
+
+      <!-- 14. Image Upload Guide -->
+      <section id="image-guide" class="doc-section">
+        <h2>14. Image Upload Guide</h2>
+        <div class="badge-container">
+          <span class="badge badge-important">Important Guidelines</span>
+        </div>
+        <p>Images play a critical role in the speed and visual appeal of your website. Follow these standards to maintain high visual quality without slowing down the site for mobile users.</p>
+        
+        <p><strong>Recommended Image Dimensions & Sizes:</strong></p>
+        <ul>
+          <li><strong>Desktop Sliders / Hero Banners</strong>: Horizontal aspect ratio (e.g., <code>1920 x 700 px</code>). File size should not exceed <code>1 MB</code>.</li>
+          <li><strong>Mobile Sliders</strong>: Vertical or square aspect ratio (e.g., <code>800 x 800 px</code> or <code>720 x 1280 px</code>). File size limit: <code>300 KB</code>.</li>
+          <li><strong>Blog / Project Featured Images</strong>: Landscape ratio (e.g., <code>1200 x 800 px</code>). File size limit: <code>500 KB</code>.</li>
+          <li><strong>Client & Partner Logos</strong>: Clean horizontal crop (e.g., <code>400 x 200 px</code>). Use PNG format with transparent backgrounds for the best visual integration.</li>
+        </ul>
+
+        <div class="section-meta">
+          <p><strong>Supported File Types</strong>: Only upload files in <strong>JPG</strong>, <strong>PNG</strong>, or <strong>WEBP</strong> format. Do not upload large camera raw files or TIFF formats.</p>
+          <p><strong>File Size Compression Tool</strong>: If your image file is too large, use a free online compressor tool (like TinyJPG or Squoosh) before uploading to reduce file sizes.</p>
+        </div>
+      </section>
+
+      <!-- 15. Status & Visibility Guide -->
+      <section id="status-guide" class="doc-section">
+        <h2>15. Status & Visibility Guide</h2>
+        <div class="badge-container">
+          <span class="badge badge-important">Important Guidelines</span>
+        </div>
+        <p>The **Status** selector controls whether an item is public or hidden. Understanding this prevents accidental deletion of draft work.</p>
+        <ul>
+          <li><strong>Active / Published</strong>: The item is fully visible on the live website.</li>
+          <li><strong>Inactive / Draft</strong>: The item is saved securely in the database but is invisible to public visitors. Use this when you're still drafting content or waiting for image approvals.</li>
+          <li><strong>Closed (Careers)</strong>: The vacancy is archived. The page will state that applications are no longer being accepted.</li>
+        </ul>
+        <div class="warning-panel">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"/></svg>
+            Always Prefer "Inactive" over "Delete"
+          </h4>
+          <p>If you are unsure whether you will need an item in the future, do not click Delete. Toggle the status to Inactive instead. Deletion permanently erases the record from the database and it cannot be recovered.</p>
+        </div>
+      </section>
+
+      <!-- 16. Ordering & Layout Guide -->
+      <section id="ordering-guide" class="doc-section">
+        <h2>16. Ordering & Layout Guide</h2>
+        <div class="badge-container">
+          <span class="badge badge-important">Important Guidelines</span>
+        </div>
+        <p>The numeric **Order** field controls the layout sequence of items in lists, carousels, and grid displays.</p>
+        <p><strong>Sorting Rules:</strong></p>
+        <ul>
+          <li><strong>Ascending Order</strong>: Lower numbers are displayed first. An item with order set to <code>1</code> appears before an item with order set to <code>2</code>.</li>
+          <li><strong>Grouping Zeroes</strong>: If multiple items share the same order number (e.g. they are all set to <code>0</code> or left empty), the system will display the most recently created items first.</li>
+        </ul>
+        <div class="section-meta">
+          <p><strong>Pro-Tip:</strong> Leave gaps in your ordering weights (e.g., use 10, 20, 30 instead of 1, 2, 3). This allows you to easily insert new items in the middle of a list later on without needing to renumber every single entry.</p>
+        </div>
+      </section>
+
+      <!-- 17. Safe Editing Rules -->
+      <section id="safe-editing" class="doc-section">
+        <h2>17. Safe Editing Rules</h2>
+        <div class="badge-container">
+          <span class="badge badge-important">Best Practices</span>
+        </div>
+        <p>Follow these safety checks to keep the website presentation professional and clean:</p>
+        <ol>
+          <li><strong>Text Formatting</strong>: Write main descriptions in clear paragraphs. Avoid copy-pasting text directly from Microsoft Word or other web pages, as this can transfer hidden styles and mess up the font formatting. Copy to a plain notepad first to strip styling.</li>
+          <li><strong>Short Titles</strong>: Keep titles and main headings under <code>60 characters</code> so they display neatly on mobile screens.</li>
+          <li><strong>Verify Links</strong>: When linking buttons, always double-check the URL. Use relative paths like <code>/projects</code> for internal links, or full links starting with <code>https://</code> for external sites.</li>
+          <li><strong>Mobile Inspections</strong>: Whenever you modify sliders, inspect the results on a smartphone to ensure that cropped views do not cut off important text or faces.</li>
+        </ol>
+      </section>
+
+      <!-- 18. Troubleshooting -->
+      <section id="troubleshooting" class="doc-section">
+        <h2>18. Troubleshooting</h2>
+        <div class="badge-container">
+          <span class="badge badge-important">Help Desk</span>
+        </div>
+        <p>Refer to these solutions when experiencing issues with updates:</p>
+        
+        <p><strong>1. Saved updates are not appearing on the live website:</strong></p>
+        <ul>
+          <li>Open the item in the admin panel and ensure the status is explicitly set to <strong>Active</strong> or <strong>Published</strong>.</li>
+          <li>Verify that you selected the correct target **Website** (e.g., concrete updates won't display on the solar website).</li>
+          <li>Force clear your browser's local cache (Hold down <code>Shift</code> and press <code>F5</code>, or clear history settings).</li>
+        </ul>
+        
+        <p><strong>2. An uploaded image is not displaying, or shows up broken:</strong></p>
+        <ul>
+          <li>Open the form again, upload the file, and wait for the upload thumbnail preview to display *before* clicking Save.</li>
+          <li>Verify that the image file type is a supported extension (.jpg, .png, or .webp).</li>
+          <li>Check if the file is too large (compress it to below 1 MB).</li>
+        </ul>
+        
+        <p><strong>3. The form is refusing to save:</strong></p>
+        <ul>
+          <li>Check that all required fields (marked with red asterisks or labeled as required) are filled in.</li>
+          <li>Check if you have entered invalid information (e.g., text inside a numeric order field or a broken link format).</li>
+        </ul>
+        
+        <p><strong>4. I cannot log in:</strong></p>
+        <ul>
+          <li>Check with the super-admin to verify that your account hasn't been disabled.</li>
+          <li>Confirm that your server is running and you have a stable internet connection.</li>
+        </ul>
+      </section>
+
+      <!-- 19. Currently Hidden Modules -->
+      <section id="hidden-modules" class="doc-section">
+        <h2>19. Currently Hidden Modules</h2>
+        <div class="badge-container">
+          <span class="badge badge-hidden">Currently Hidden / Future Use</span>
+        </div>
+        <p>To keep the administration interface clean and focused, several modules are currently hidden from the main sidebar. The underlying database structures, route endpoints, and UI views remain intact so that developer support can quickly re-enable them in the future if requirements expand.</p>
+        <p><strong>List of Hidden Modules:</strong></p>
+        <ul>
+          <li><strong>Websites</strong>: Setting global logos, primary/secondary colors, and email addresses for separate websites.</li>
+          <li><strong>Group Pages</strong>: A visual builder to add and edit customizable pages and section blocks.</li>
+          <li><strong>Landing Sections</strong>: Managing specific custom sections (Hero, Features, Services) on client-specific homepages.</li>
+          <li><strong>Testimonials</strong>: Client ratings, quotes, designations, and reviewer photos.</li>
+          <li><strong>Team / Staff Profiles</strong>: Department directories, bios, and LinkedIn profiles for corporate staff members.</li>
+          <li><strong>Advertisements</strong>: Managing website advertisements (popups, top/bottom banners, sidebar ads).</li>
+          <li><strong>Solar Promotions</strong>: Banners, subsidy scheme details, and promotional blocks for the Solar website.</li>
+          <li><strong>Settings</strong>: Admin accounts configuration and public API lists.</li>
+        </ul>
+        <div class="section-meta">
+          <p>If your team requires any of these modules activated, contact the technical administrator to toggle their visibility settings in the sidebar configuration.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="btn-back-to-top" onclick="scrollToTop()" title="Back to Top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <script>
+    // Search filter function
+    function filterGuide() {
+      const input = document.getElementById('search-bar');
+      const filter = input.value.toLowerCase();
+      const sections = document.getElementsByClassName('doc-section');
+      const sidebarItems = document.getElementsByClassName('toc-item');
+      
+      for (let i = 0; i < sections.length; i++) {
+        const text = sections[i].textContent.toLowerCase();
+        const headerText = sections[i].getElementsByTagName('h2')[0].textContent.toLowerCase();
+        const targetId = sections[i].id;
+        
+        if (text.includes(filter) || headerText.includes(filter)) {
+          sections[i].style.display = "";
+          // Show sidebar item
+          updateSidebarVisibility(targetId, true);
+        } else {
+          sections[i].style.display = "none";
+          // Hide sidebar item
+          updateSidebarVisibility(targetId, false);
+        }
+      }
+    }
+    
+    function updateSidebarVisibility(id, show) {
+      const sidebarItems = document.getElementsByClassName('toc-item');
+      for (let j = 0; j < sidebarItems.length; j++) {
+        if (sidebarItems[j].getAttribute('data-target') === id) {
+          sidebarItems[j].style.display = show ? "" : "none";
+          break;
+        }
+      }
+    }
+
+    // Scroll spy for sidebar highlighters
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('.doc-section');
+      const sidebarItems = document.querySelectorAll('.toc-item');
+      let currentSectionId = 'intro';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.scrollY >= sectionTop - 150) {
+          currentSectionId = section.getAttribute('id');
+        }
+      });
+      
+      sidebarItems.forEach(item => {
+        if (item.getAttribute('data-target') === currentSectionId) {
+          item.classList.add('active');
+          // sync select dropdown if present
+          const mobileSelect = document.querySelector('.mobile-nav-select');
+          if (mobileSelect) {
+            mobileSelect.value = '#' + currentSectionId;
+          }
+        } else {
+          item.classList.remove('active');
+        }
+      });
+      
+      // show/hide back to top
+      const bttButton = document.getElementById('btn-back-to-top');
+      if (window.scrollY > 400) {
+        bttButton.style.display = 'flex';
+      } else {
+        bttButton.style.display = 'none';
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+</body>
+</html>

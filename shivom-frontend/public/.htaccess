@@ -1,0 +1,35 @@
+Options -MultiViews
+
+RewriteEngine On
+RewriteBase /
+
+# HTTPS Redirect
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Existing files/directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Exclude Next.js static assets and media/font files from any further rewrites
+RewriteCond %{REQUEST_URI} ^/_next/ [OR]
+RewriteCond %{REQUEST_URI} \.(css|js|gif|png|jpg|jpeg|svg|ico|webp|woff|woff2|eot|ttf|otf)$ [NC]
+RewriteRule ^ - [L]
+
+# Next.js static export RSC payload routing (requests with _rsc query parameter)
+RewriteCond %{QUERY_STRING} (^|&)_rsc=
+RewriteRule ^([^/]+)/?$ /$1/index.txt [L,T=text/plain]
+
+RewriteCond %{QUERY_STRING} (^|&)_rsc=
+RewriteRule ^([^/]+)/([^/]+)/?$ /$1/$2/index.txt [L,T=text/plain]
+
+RewriteCond %{QUERY_STRING} (^|&)_rsc=
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/?$ /$1/$2/$3/index.txt [L,T=text/plain]
+
+# Next.js static export HTML routing
+RewriteRule ^([^/]+)/?$ /$1/index.html [L]
+RewriteRule ^([^/]+)/([^/]+)/?$ /$1/$2/index.html [L]
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/?$ /$1/$2/$3/index.html [L]
+
+RewriteRule ^$ /index.html [L]

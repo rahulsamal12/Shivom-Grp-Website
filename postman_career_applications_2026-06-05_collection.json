@@ -1,0 +1,698 @@
+{
+  "info": {
+    "_postman_id": "c9cf3db0-2026-0605-career-applications",
+    "name": "Shivom Career Applications APIs - 2026-06-05 Additions",
+    "description": "Separate Postman collection for today's Career Application upgrade: public apply form, protected admin review, status actions, and protected CV view/download.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Admin Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.success && json.data && json.data.token) {",
+                  "  pm.environment.set('token', json.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "auth",
+                "login"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Public Careers",
+      "auth": {
+        "type": "noauth"
+      },
+      "item": [
+        {
+          "name": "List Active Careers",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && Array.isArray(json.data) ? json.data[0] : null;",
+                  "if (first) {",
+                  "  pm.environment.set('careerId', first._id);",
+                  "  pm.environment.set('careerSlug', first.slug);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/careers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "careers"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Career Detail By Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/careers/{{careerSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "careers",
+                "{{careerSlug}}"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Apply For Career - Upload CV",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "applicantName",
+                  "value": "Postman Applicant",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "{{careerApplicationEmail}}",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+91 99999 99999",
+                  "type": "text"
+                },
+                {
+                  "key": "alternatePhone",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "currentLocation",
+                  "value": "Bhubaneswar",
+                  "type": "text"
+                },
+                {
+                  "key": "totalExperience",
+                  "value": "3 years",
+                  "type": "text"
+                },
+                {
+                  "key": "currentCompany",
+                  "value": "Current Company",
+                  "type": "text"
+                },
+                {
+                  "key": "currentSalary",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "expectedSalary",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "noticePeriod",
+                  "value": "30 days",
+                  "type": "text"
+                },
+                {
+                  "key": "coverLetter",
+                  "value": "Cover letter from Postman.",
+                  "type": "text"
+                },
+                {
+                  "key": "message",
+                  "value": "Application message from Postman.",
+                  "type": "text"
+                },
+                {
+                  "key": "sourcePage",
+                  "value": "/career-advertisement",
+                  "type": "text"
+                },
+                {
+                  "key": "resume",
+                  "type": "file",
+                  "src": "{{resumeFilePath}}"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/careers/{{careerSlug}}/apply",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "careers",
+                "{{careerSlug}}",
+                "apply"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Apply For Career - Production Popup Compatibility",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.success && json.data && json.data.applicationId) {",
+                  "  pm.environment.set('careerApplicationId', json.data.applicationId);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullName",
+                  "value": "Production Popup Applicant",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "{{careerApplicationEmail}}",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "9999999999",
+                  "type": "text"
+                },
+                {
+                  "key": "currentLocation",
+                  "value": "Bhubaneswar",
+                  "type": "text"
+                },
+                {
+                  "key": "experience",
+                  "value": "2 years",
+                  "type": "text"
+                },
+                {
+                  "key": "position",
+                  "value": "Enterprise Operations Coordinator",
+                  "type": "text"
+                },
+                {
+                  "key": "careerId",
+                  "value": "{{careerId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "coverLetter",
+                  "value": "Application submitted from the production-compatible endpoint.",
+                  "type": "text"
+                },
+                {
+                  "key": "division",
+                  "value": "{{websiteKey}}",
+                  "type": "text"
+                },
+                {
+                  "key": "sourcePage",
+                  "value": "/careers",
+                  "type": "text"
+                },
+                {
+                  "key": "resume",
+                  "type": "file",
+                  "src": "{{resumeFilePath}}"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/career-applications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "career-applications"
+              ]
+            },
+            "description": "Backward-compatible public endpoint used by the deployed careers popup. careerId should be the active Career MongoDB _id. If omitted, position must exactly match the active job title."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Career Applications",
+      "item": [
+        {
+          "name": "List Applications",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) pm.environment.set('careerApplicationId', first._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications?websiteKey={{websiteKey}}&status={{careerApplicationStatus}}&search={{careerApplicationEmail}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "{{websiteKey}}"
+                },
+                {
+                  "key": "status",
+                  "value": "{{careerApplicationStatus}}"
+                },
+                {
+                  "key": "search",
+                  "value": "{{careerApplicationEmail}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Application Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Admin Fields",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"adminRemarks\": \"Updated from separate Postman collection\",\n  \"interviewDate\": \"2026-06-15T10:00:00.000Z\",\n  \"interviewMode\": \"google_meet\",\n  \"interviewLink\": \"https://meet.google.com/example\",\n  \"rejectionReason\": \"\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Reviewed",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"reviewed\",\n  \"adminRemarks\": \"Reviewed from Postman\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Shortlisted",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"shortlisted\",\n  \"adminRemarks\": \"Shortlisted from Postman\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Schedule Interview",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"interview_scheduled\",\n  \"adminRemarks\": \"Interview scheduled from Postman\",\n  \"interviewDate\": \"2026-06-15T10:00:00.000Z\",\n  \"interviewMode\": \"google_meet\",\n  \"interviewLink\": \"https://meet.google.com/example\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reject Application",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"rejected\",\n  \"adminRemarks\": \"Rejected from Postman\",\n  \"rejectionReason\": \"Not matching the current role requirement\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Hired",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"hired\",\n  \"adminRemarks\": \"Hired from Postman\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "View Resume",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}/resume/view",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}",
+                "resume",
+                "view"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Download Resume",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}/resume/download",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}",
+                "resume",
+                "download"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Application",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Dashboard Counts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/dashboard",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "dashboard"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

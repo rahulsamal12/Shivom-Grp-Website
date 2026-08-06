@@ -1,0 +1,3839 @@
+{
+  "info": {
+    "_postman_id": "91f52451-5f2c-4f6d-a0de-group-cms-api",
+    "name": "Group CMS Admin and Public APIs",
+    "description": "Postman collection for the Group CMS backend. Import `postman_environment.json`, run Admin Auth > Login first, and the token will be saved automatically.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": []
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": []
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://apishivom.visital.co.in"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "API Health",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.success && json.data && json.data.token) {",
+                  "  pm.environment.set('token', json.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"change_this_password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Dashboard",
+      "item": [
+        {
+          "name": "Dashboard Counts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/dashboard",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "dashboard"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Websites",
+      "item": [
+        {
+          "name": "List Websites",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) pm.environment.set('websiteId', first._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/websites",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "websites"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Website",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteKey\": \"enterprise\",\n  \"websiteName\": \"Enterprises\",\n  \"logo\": \"\",\n  \"favicon\": \"\",\n  \"primaryColor\": \"#dc2626\",\n  \"secondaryColor\": \"#111827\",\n  \"metaTitle\": \"Enterprises\",\n  \"metaDescription\": \"Enterprise website content\",\n  \"contactEmail\": \"info@example.com\",\n  \"contactPhone\": \"+91 00000 00000\",\n  \"address\": \"Odisha, India\",\n  \"socialLinks\": {\n    \"facebook\": \"\",\n    \"instagram\": \"\",\n    \"linkedin\": \"\",\n    \"twitter\": \"\",\n    \"youtube\": \"\"\n  },\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/websites",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "websites"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Website By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/websites/{{websiteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "websites",
+                "{{websiteId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Website",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteName\": \"Enterprises\",\n  \"metaTitle\": \"Enterprises\",\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/websites/{{websiteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "websites",
+                "{{websiteId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Website",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/websites/{{websiteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "websites",
+                "{{websiteId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Sliders",
+      "item": [
+        {
+          "name": "List Sliders",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) pm.environment.set('sliderId', first._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/sliders?websiteKey={{websiteKey}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "sliders"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "{{websiteKey}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Slider",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteKey\": \"{{websiteKey}}\",\n  \"title\": \"Hero Banner\",\n  \"subtitle\": \"Welcome\",\n  \"description\": \"Hero content managed from CMS.\",\n  \"buttonText\": \"Explore\",\n  \"buttonLink\": \"/\",\n  \"image\": \"https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1400&q=80\",\n  \"mobileImage\": \"\",\n  \"order\": 1,\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/sliders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "sliders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Slider By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/sliders/{{sliderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "sliders",
+                "{{sliderId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Slider",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Hero Banner\",\n  \"order\": 2,\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/sliders/{{sliderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "sliders",
+                "{{sliderId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Slider",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/sliders/{{sliderId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "sliders",
+                "{{sliderId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Pages",
+      "item": [
+        {
+          "name": "List Pages",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) pm.environment.set('pageId', first._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pages"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Page",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"sample-page\",\n  \"title\": \"Sample Page\",\n  \"metaTitle\": \"Sample Page\",\n  \"metaDescription\": \"Sample page description\",\n  \"bannerImage\": \"\",\n  \"sections\": [\n    {\n      \"sectionKey\": \"intro\",\n      \"heading\": \"Sample Page\",\n      \"subHeading\": \"CMS section\",\n      \"description\": \"Editable section content.\",\n      \"image\": \"\",\n      \"buttonText\": \"Read More\",\n      \"buttonLink\": \"/sample-page\",\n      \"order\": 1,\n      \"status\": \"active\"\n    }\n  ],\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pages"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Page By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pages/{{pageId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pages",
+                "{{pageId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Page",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Page\",\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pages/{{pageId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pages",
+                "{{pageId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Page",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pages/{{pageId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pages",
+                "{{pageId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Landing Sections",
+      "item": [
+        {
+          "name": "List Landing Sections",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) pm.environment.set('landingSectionId', first._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/landing-sections?websiteKey=enterprise",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "landing-sections"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "enterprise"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Landing Section",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteKey\": \"enterprise\",\n  \"sectionType\": \"about\",\n  \"heading\": \"About Enterprises\",\n  \"subHeading\": \"Company overview\",\n  \"description\": \"Editable landing page section.\",\n  \"image\": \"\",\n  \"items\": [\n    {\n      \"title\": \"Service\",\n      \"description\": \"Service description\",\n      \"icon\": \"\",\n      \"image\": \"\",\n      \"link\": \"\"\n    }\n  ],\n  \"order\": 1,\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/landing-sections",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "landing-sections"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Landing Section By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/landing-sections/{{landingSectionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "landing-sections",
+                "{{landingSectionId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Landing Section",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"heading\": \"Updated Landing Section\",\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/landing-sections/{{landingSectionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "landing-sections",
+                "{{landingSectionId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Landing Section",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/landing-sections/{{landingSectionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "landing-sections",
+                "{{landingSectionId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Projects",
+      "item": [
+        {
+          "name": "List Projects",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) {",
+                  "  pm.environment.set('projectId', first._id);",
+                  "  pm.environment.set('projectSlug', first.slug);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/projects?websiteKey={{websiteKey}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "projects"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "{{websiteKey}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteKey\": \"{{websiteKey}}\",\n  \"title\": \"New Project\",\n  \"slug\": \"new-project\",\n  \"shortDescription\": \"Short project summary\",\n  \"description\": \"Detailed project description\",\n  \"category\": \"Infrastructure\",\n  \"location\": \"Odisha\",\n  \"clientName\": \"Client Name\",\n  \"projectDate\": \"2026-05-07\",\n  \"featuredImage\": \"https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80\",\n  \"gallery\": [],\n  \"status\": \"active\",\n  \"isFeatured\": true,\n  \"order\": 1,\n  \"metaTitle\": \"New Project\",\n  \"metaDescription\": \"New project meta description\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/projects",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "projects"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Project By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/projects/{{projectId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "projects",
+                "{{projectId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Project",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Project\",\n  \"status\": \"active\",\n  \"isFeatured\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/projects/{{projectId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "projects",
+                "{{projectId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Project",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/projects/{{projectId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "projects",
+                "{{projectId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Testimonials",
+      "item": [
+        {
+          "name": "List Testimonials",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) pm.environment.set('testimonialId', first._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/testimonials?websiteKey={{websiteKey}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "testimonials"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "{{websiteKey}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Testimonial",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteKey\": \"{{websiteKey}}\",\n  \"clientName\": \"Client Name\",\n  \"designation\": \"Director\",\n  \"companyName\": \"Company Name\",\n  \"message\": \"Great experience working with the group.\",\n  \"image\": \"\",\n  \"rating\": 5,\n  \"order\": 1,\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/testimonials",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "testimonials"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Testimonial By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/testimonials/{{testimonialId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "testimonials",
+                "{{testimonialId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Testimonial",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientName\": \"Updated Client\",\n  \"rating\": 5,\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/testimonials/{{testimonialId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "testimonials",
+                "{{testimonialId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Testimonial",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/testimonials/{{testimonialId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "testimonials",
+                "{{testimonialId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Events",
+      "item": [
+        {
+          "name": "List Events",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) {",
+                  "  pm.environment.set('eventId', first._id);",
+                  "  pm.environment.set('eventSlug', first.slug);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/events?websiteKey={{websiteKey}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "events"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "{{websiteKey}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteKey\": \"{{websiteKey}}\",\n  \"title\": \"New Event\",\n  \"slug\": \"new-event\",\n  \"shortDescription\": \"Short event summary\",\n  \"description\": \"Detailed event description\",\n  \"eventDate\": \"2026-05-07\",\n  \"location\": \"Odisha\",\n  \"featuredImage\": \"\",\n  \"gallery\": [],\n  \"status\": \"active\",\n  \"order\": 1,\n  \"metaTitle\": \"New Event\",\n  \"metaDescription\": \"Event meta description\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/events",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "events"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Event By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/events/{{eventId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "events",
+                "{{eventId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Event",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Event\",\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/events/{{eventId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "events",
+                "{{eventId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Event",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/events/{{eventId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "events",
+                "{{eventId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Awards & Certifications",
+      "item": [
+        {
+          "name": "List Awards & Certifications",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) {",
+                  "  pm.environment.set('awardCertificationId', first._id);",
+                  "  pm.environment.set('awardCertificationSlug', first.slug);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/awards-certifications?websiteKey={{websiteKey}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "awards-certifications"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "{{websiteKey}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Award / Certification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteKey\": \"{{websiteKey}}\",\n  \"title\": \"ISO 9001 Quality Certification\",\n  \"slug\": \"iso-9001-quality-certification\",\n  \"type\": \"certification\",\n  \"issuer\": \"International Certification Body\",\n  \"certificateNumber\": \"ISO-9001-SAMPLE\",\n  \"issueDate\": \"2026-05-07\",\n  \"expiryDate\": \"2029-05-07\",\n  \"shortDescription\": \"Short certification summary\",\n  \"description\": \"Detailed certification description\",\n  \"image\": \"https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1200&q=80\",\n  \"documentUrl\": \"\",\n  \"status\": \"active\",\n  \"isFeatured\": true,\n  \"order\": 1,\n  \"metaTitle\": \"ISO 9001 Quality Certification\",\n  \"metaDescription\": \"Certification meta description\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/awards-certifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "awards-certifications"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Award / Certification By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/awards-certifications/{{awardCertificationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "awards-certifications",
+                "{{awardCertificationId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Award / Certification",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Award / Certification\",\n  \"status\": \"active\",\n  \"isFeatured\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/awards-certifications/{{awardCertificationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "awards-certifications",
+                "{{awardCertificationId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Award / Certification",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/awards-certifications/{{awardCertificationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "awards-certifications",
+                "{{awardCertificationId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Team",
+      "item": [
+        {
+          "name": "List Team",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) pm.environment.set('teamId', first._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/team?websiteKey={{websiteKey}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "team"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "{{websiteKey}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Team Member",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteKey\": \"{{websiteKey}}\",\n  \"name\": \"Team Member\",\n  \"designation\": \"Manager\",\n  \"department\": \"Operations\",\n  \"bio\": \"Short team bio\",\n  \"image\": \"\",\n  \"email\": \"member@example.com\",\n  \"phone\": \"+91 00000 00000\",\n  \"linkedin\": \"\",\n  \"order\": 1,\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/team",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "team"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Team Member By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/team/{{teamId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "team",
+                "{{teamId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Team Member",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Team Member\",\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/team/{{teamId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "team",
+                "{{teamId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Team Member",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/team/{{teamId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "team",
+                "{{teamId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Blogs",
+      "item": [
+        {
+          "name": "List Blogs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) {",
+                  "  pm.environment.set('blogId', first._id);",
+                  "  pm.environment.set('blogSlug', first.slug);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/blogs?websiteKey={{websiteKey}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blogs"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "{{websiteKey}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Blog",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteKey\": \"{{websiteKey}}\",\n  \"title\": \"New Blog\",\n  \"slug\": \"new-blog\",\n  \"shortDescription\": \"Short blog summary\",\n  \"content\": \"Full blog content goes here.\",\n  \"featuredImage\": \"\",\n  \"category\": \"News\",\n  \"tags\": [\"news\", \"cms\"],\n  \"author\": \"Admin\",\n  \"publishDate\": \"2026-05-07\",\n  \"status\": \"published\",\n  \"isFeatured\": true,\n  \"metaTitle\": \"New Blog\",\n  \"metaDescription\": \"Blog meta description\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/blogs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blogs"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Blog By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/blogs/{{blogId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blogs",
+                "{{blogId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Blog",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Blog\",\n  \"status\": \"published\",\n  \"isFeatured\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/blogs/{{blogId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blogs",
+                "{{blogId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Blog",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/blogs/{{blogId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "blogs",
+                "{{blogId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Contacts",
+      "item": [
+        {
+          "name": "List Contacts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) pm.environment.set('contactId', first._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/contacts?websiteKey={{websiteKey}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "contacts"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "{{websiteKey}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Contact By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/contacts/{{contactId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "contacts",
+                "{{contactId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Contact Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"read\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/contacts/{{contactId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "contacts",
+                "{{contactId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Contact",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/contacts/{{contactId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "contacts",
+                "{{contactId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Careers",
+      "item": [
+        {
+          "name": "List Careers",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items ? json.data.items[0] : Array.isArray(json.data) ? json.data[0] : null;",
+                  "if (first) pm.environment.set('careerId', first._id);",
+                  "if (first && first.slug) pm.environment.set('careerSlug', first.slug);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/careers?websiteKey={{websiteKey}}&jobType=full-time&status=active",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "careers"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "{{websiteKey}}"
+                },
+                {
+                  "key": "jobType",
+                  "value": "full-time"
+                },
+                {
+                  "key": "status",
+                  "value": "active"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Career",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteKey\": \"{{websiteKey}}\",\n  \"jobTitle\": \"Postman Test Career\",\n  \"slug\": \"postman-test-career\",\n  \"department\": \"Operations\",\n  \"jobType\": \"full-time\",\n  \"location\": \"Odisha\",\n  \"experience\": \"2+ years\",\n  \"salaryRange\": \"As per company policy\",\n  \"shortDescription\": \"Career created from Postman collection.\",\n  \"description\": \"Use this request to test career creation from the admin API.\",\n  \"responsibilities\": [\n    \"Coordinate daily work\",\n    \"Prepare reports\"\n  ],\n  \"requirements\": [\n    \"Relevant experience\",\n    \"Good communication\"\n  ],\n  \"skills\": [\n    \"Operations\",\n    \"Reporting\"\n  ],\n  \"applicationDeadline\": \"2026-12-31\",\n  \"applyEmail\": \"careers@example.com\",\n  \"applyLink\": \"\",\n  \"status\": \"active\",\n  \"order\": 1,\n  \"metaTitle\": \"Postman Test Career\",\n  \"metaDescription\": \"Career API test record\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/careers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "careers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Career By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/careers/{{careerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "careers",
+                "{{careerId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Career",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\",\n  \"jobTitle\": \"Updated Postman Test Career\",\n  \"order\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/careers/{{careerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "careers",
+                "{{careerId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Career",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/careers/{{careerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "careers",
+                "{{careerId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Career Applications",
+      "item": [
+        {
+          "name": "List Career Applications",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items && json.data.items[0];",
+                  "if (first) pm.environment.set('careerApplicationId', first._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications?status={{careerApplicationStatus}}&search={{careerApplicationEmail}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "{{careerApplicationStatus}}"
+                },
+                {
+                  "key": "search",
+                  "value": "{{careerApplicationEmail}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Career Application By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Career Application Admin Fields",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"adminRemarks\": \"Updated from Postman\",\n  \"interviewDate\": \"2026-06-15T10:00:00.000Z\",\n  \"interviewMode\": \"google_meet\",\n  \"interviewLink\": \"https://meet.google.com/example\",\n  \"rejectionReason\": \"\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Patch Career Application Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"{{careerApplicationStatus}}\",\n  \"adminRemarks\": \"Status updated from Postman\",\n  \"rejectionReason\": \"\",\n  \"interviewDate\": \"2026-06-15T10:00:00.000Z\",\n  \"interviewMode\": \"google_meet\",\n  \"interviewLink\": \"https://meet.google.com/example\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "View Resume",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}/resume/view",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}",
+                "resume",
+                "view"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Download Resume",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}/resume/download",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}",
+                "resume",
+                "download"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Career Application",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/career-applications/{{careerApplicationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "career-applications",
+                "{{careerApplicationId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Advertisements",
+      "item": [
+        {
+          "name": "List Advertisements",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items ? json.data.items[0] : Array.isArray(json.data) ? json.data[0] : null;",
+                  "if (first) pm.environment.set('advertisementId', first._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/advertisements?websiteKey={{websiteKey}}&adType=popup&status=active",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "advertisements"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "{{websiteKey}}"
+                },
+                {
+                  "key": "adType",
+                  "value": "popup"
+                },
+                {
+                  "key": "status",
+                  "value": "active"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Advertisement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteKey\": \"{{websiteKey}}\",\n  \"title\": \"Postman Test Advertisement\",\n  \"subtitle\": \"API test banner\",\n  \"description\": \"Advertisement created from Postman collection.\",\n  \"adType\": \"popup\",\n  \"image\": \"\",\n  \"buttonText\": \"Explore\",\n  \"buttonLink\": \"/projects\",\n  \"startDate\": \"2026-01-01\",\n  \"endDate\": \"2026-12-31\",\n  \"displayPages\": [\n    \"/\",\n    \"/projects\"\n  ],\n  \"targetUrl\": \"\",\n  \"openInNewTab\": false,\n  \"priority\": 20,\n  \"status\": \"active\",\n  \"showOnce\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/advertisements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "advertisements"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Advertisement By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/advertisements/{{advertisementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "advertisements",
+                "{{advertisementId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Advertisement",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Postman Advertisement\",\n  \"priority\": 25,\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/advertisements/{{advertisementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "advertisements",
+                "{{advertisementId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Advertisement",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/advertisements/{{advertisementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "advertisements",
+                "{{advertisementId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Clients & Partners",
+      "item": [
+        {
+          "name": "List Client Partners",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items ? json.data.items[0] : Array.isArray(json.data) ? json.data[0] : null;",
+                  "if (first) pm.environment.set('clientPartnerId', first._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/client-partners?websiteKey={{websiteKey}}&type={{clientPartnerType}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "client-partners"
+              ],
+              "query": [
+                {
+                  "key": "websiteKey",
+                  "value": "{{websiteKey}}"
+                },
+                {
+                  "key": "type",
+                  "value": "{{clientPartnerType}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Client Partner",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"websiteKey\": \"{{websiteKey}}\",\n  \"name\": \"Postman Client Partner\",\n  \"logo\": \"https://dummyimage.com/260x140/ffffff/111111.png&text=CLIENT\",\n  \"websiteUrl\": \"https://example.com\",\n  \"description\": \"Created from Postman.\",\n  \"type\": \"{{clientPartnerType}}\",\n  \"order\": 10,\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/client-partners",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "client-partners"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Client Partner By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/client-partners/{{clientPartnerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "client-partners",
+                "{{clientPartnerId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Client Partner",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Postman Client Partner\",\n  \"order\": 11,\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/client-partners/{{clientPartnerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "client-partners",
+                "{{clientPartnerId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Client Partner",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/client-partners/{{clientPartnerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "client-partners",
+                "{{clientPartnerId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Uploads",
+      "item": [
+        {
+          "name": "Upload Single Image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/upload/single",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "upload",
+                "single"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Multiple Images",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/upload/multiple",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "upload",
+                "multiple"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Public APIs",
+      "auth": {
+        "type": "noauth"
+      },
+      "item": [
+        {
+          "name": "Home",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/home",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "home"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sliders",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/sliders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "sliders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Page By Slug",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/group/pages/about-us",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "group",
+                "pages",
+                "about-us"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Landing Sections",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/enterprise/landing-sections",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "enterprise",
+                "landing-sections"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Projects",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/projects",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "projects"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Featured Projects",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/projects/featured",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "projects",
+                "featured"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Project By Slug",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/projects/{{projectSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "projects",
+                "{{projectSlug}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Testimonials",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/testimonials",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "testimonials"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Events",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/events",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "events"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Event By Slug",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/events/{{eventSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "events",
+                "{{eventSlug}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Awards & Certifications",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/awards-certifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "awards-certifications"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Certifications Only",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/awards-certifications?type=certification",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "awards-certifications"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "certification"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Awards Only",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/awards-certifications?type=award",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "awards-certifications"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "award"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Featured Awards & Certifications",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/awards-certifications/featured",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "awards-certifications",
+                "featured"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Award / Certification By Slug",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/awards-certifications/{{awardCertificationSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "awards-certifications",
+                "{{awardCertificationSlug}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Team",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/team",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "team"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Blogs",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/blogs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "blogs"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Featured Blogs",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/blogs/featured",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "blogs",
+                "featured"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Blog By Slug",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/blogs/{{blogSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "blogs",
+                "{{blogSlug}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Contact Enquiry",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Website Visitor\",\n  \"email\": \"visitor@example.com\",\n  \"phone\": \"+91 00000 00000\",\n  \"subject\": \"Website enquiry\",\n  \"message\": \"I would like to know more.\",\n  \"sourcePage\": \"/contact\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/contact",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "contact"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Careers",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/careers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "careers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Career By Slug",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/careers/{{careerSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "careers",
+                "{{careerSlug}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Apply For Career",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "applicantName",
+                  "value": "Postman Applicant",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "applicant@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+91 00000 00000",
+                  "type": "text"
+                },
+                {
+                  "key": "coverLetter",
+                  "value": "Cover letter from Postman.",
+                  "type": "text"
+                },
+                {
+                  "key": "message",
+                  "value": "Application message from Postman.",
+                  "type": "text"
+                },
+                {
+                  "key": "resume",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/careers/{{careerSlug}}/apply",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "careers",
+                "{{careerSlug}}",
+                "apply"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Advertisements",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/advertisements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "advertisements"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Active Advertisements",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/advertisements/active",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "advertisements",
+                "active"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Browser Update Banner",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/browser-update",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "browser-update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Client Partners",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/client-partners",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "client-partners"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Clients Only",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/clients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "clients"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Partners Only",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/partners",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "partners"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Apply For Career - Production Popup Compatibility",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.success && json.data && json.data.applicationId) {",
+                  "  pm.environment.set('careerApplicationId', json.data.applicationId);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullName",
+                  "value": "Production Popup Applicant",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "{{careerApplicationEmail}}",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "9999999999",
+                  "type": "text"
+                },
+                {
+                  "key": "currentLocation",
+                  "value": "Bhubaneswar",
+                  "type": "text"
+                },
+                {
+                  "key": "experience",
+                  "value": "2 years",
+                  "type": "text"
+                },
+                {
+                  "key": "position",
+                  "value": "Enterprise Operations Coordinator",
+                  "type": "text"
+                },
+                {
+                  "key": "careerId",
+                  "value": "{{careerId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "coverLetter",
+                  "value": "Application submitted from the production-compatible endpoint.",
+                  "type": "text"
+                },
+                {
+                  "key": "division",
+                  "value": "{{websiteKey}}",
+                  "type": "text"
+                },
+                {
+                  "key": "sourcePage",
+                  "value": "/careers",
+                  "type": "text"
+                },
+                {
+                  "key": "resume",
+                  "type": "file",
+                  "src": "{{resumeFilePath}}"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/career-applications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "career-applications"
+              ]
+            },
+            "description": "Backward-compatible public endpoint used by the deployed careers popup. careerId should be the active Career MongoDB _id. If omitted, position must exactly match the active job title."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Solar Products",
+      "item": [
+        {
+          "name": "List Solar Products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items ? json.data.items[0] : Array.isArray(json.data) ? json.data[0] : json.data;",
+                  "if (first && first._id) pm.environment.set('solarProductId', first._id);",
+                  "if (first && first.slug) pm.environment.set('solarProductSlug', first.slug);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/solar-products?category={{solarProductCategory}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "solar-products"
+              ],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "{{solarProductCategory}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Solar Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/solar-products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "solar-products"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Postman Solar Product\",\n  \"slug\": \"postman-solar-product\",\n  \"category\": \"{{solarProductCategory}}\",\n  \"brand\": \"Shivom Solar\",\n  \"modelNumber\": \"POSTMAN-SP-001\",\n  \"shortDescription\": \"Solar product created from Postman.\",\n  \"description\": \"Detailed product content managed by the Solar CMS product module.\",\n  \"featuredImage\": \"https://dummyimage.com/900x600/fff7ed/f59e0b.png&text=Solar+Product\",\n  \"gallery\": [],\n  \"badge\": \"Postman\",\n  \"specifications\": [\n    {\n      \"label\": \"Wattage\",\n      \"value\": \"540W\"\n    },\n    {\n      \"label\": \"Warranty\",\n      \"value\": \"25 years\"\n    }\n  ],\n  \"features\": [\n    \"High efficiency\",\n    \"Low maintenance\"\n  ],\n  \"price\": 0,\n  \"priceLabel\": \"Contact for pricing\",\n  \"showPrice\": false,\n  \"ctaText\": \"Enquire Now\",\n  \"ctaLink\": \"/contact\",\n  \"isFeatured\": true,\n  \"order\": 10,\n  \"status\": \"active\",\n  \"metaTitle\": \"Postman Solar Product\",\n  \"metaDescription\": \"Solar product API test\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Solar Product By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/solar-products/{{solarProductId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "solar-products",
+                "{{solarProductId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Solar Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/solar-products/{{solarProductId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "solar-products",
+                "{{solarProductId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Postman Solar Product\",\n  \"slug\": \"{{solarProductSlug}}\",\n  \"category\": \"{{solarProductCategory}}\",\n  \"description\": \"Updated from Postman.\",\n  \"status\": \"active\",\n  \"isFeatured\": true\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Patch Solar Product Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/solar-products/{{solarProductId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "solar-products",
+                "{{solarProductId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Solar Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/solar-products/{{solarProductId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "solar-products",
+                "{{solarProductId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Solar Promotions",
+      "item": [
+        {
+          "name": "List Solar Promotions",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "const first = json.data && json.data.items ? json.data.items[0] : Array.isArray(json.data) ? json.data[0] : json.data;",
+                  "if (first && first._id) pm.environment.set('solarPromotionId', first._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/solar-promotions?promotionType={{solarPromotionType}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "solar-promotions"
+              ],
+              "query": [
+                {
+                  "key": "promotionType",
+                  "value": "{{solarPromotionType}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Solar Promotion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/solar-promotions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "solar-promotions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"internalName\": \"Postman Solar Scheme\",\n  \"promotionType\": \"{{solarPromotionType}}\",\n  \"heading\": \"Solar Scheme from Postman\",\n  \"subHeading\": \"Promotion API test\",\n  \"description\": \"Solar promotion created from Postman.\",\n  \"highlights\": [\n    {\n      \"text\": \"Scheme enquiry support\",\n      \"order\": 1\n    },\n    {\n      \"text\": \"Documentation guidance\",\n      \"order\": 2\n    }\n  ],\n  \"image\": \"https://dummyimage.com/900x500/fff7ed/f97316.png&text=Solar+Promotion\",\n  \"mobileImage\": \"\",\n  \"imageAlt\": \"Solar promotion\",\n  \"buttonText\": \"Ask About Scheme\",\n  \"buttonLink\": \"/contact\",\n  \"buttonAction\": \"scheme-enquiry\",\n  \"backgroundStyle\": \"light\",\n  \"headingColor\": \"#111827\",\n  \"buttonColor\": \"#f97316\",\n  \"order\": 10,\n  \"startDate\": \"2026-01-01\",\n  \"endDate\": \"2027-12-31\",\n  \"status\": \"active\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Solar Promotion By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/solar-promotions/{{solarPromotionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "solar-promotions",
+                "{{solarPromotionId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Solar Promotion",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/solar-promotions/{{solarPromotionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "solar-promotions",
+                "{{solarPromotionId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"internalName\": \"Updated Postman Solar Scheme\",\n  \"promotionType\": \"{{solarPromotionType}}\",\n  \"heading\": \"Updated Solar Scheme\",\n  \"status\": \"active\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Patch Solar Promotion Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/solar-promotions/{{solarPromotionId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "solar-promotions",
+                "{{solarPromotionId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Solar Promotion",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/solar-promotions/{{solarPromotionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "solar-promotions",
+                "{{solarPromotionId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Public Solar APIs",
+      "auth": {
+        "type": "noauth"
+      },
+      "item": [
+        {
+          "name": "Solar Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/solar/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "solar",
+                "products"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Featured Solar Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/solar/products/featured",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "solar",
+                "products",
+                "featured"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Solar Product By Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/solar/products/{{solarProductSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "solar",
+                "products",
+                "{{solarProductSlug}}"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Solar Promotions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/solar/promotions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "solar",
+                "promotions"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Active Solar Promotions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/solar/promotions/active",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "solar",
+                "promotions",
+                "active"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Public Career Apply APIs",
+      "auth": {
+        "type": "noauth"
+      },
+      "item": [
+        {
+          "name": "Careers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/careers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "careers"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Career By Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/careers/{{careerSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "careers",
+                "{{careerSlug}}"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Apply For Career",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "applicantName",
+                  "value": "Postman Applicant",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "{{careerApplicationEmail}}",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "+91 99999 99999",
+                  "type": "text"
+                },
+                {
+                  "key": "alternatePhone",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "currentLocation",
+                  "value": "Bhubaneswar",
+                  "type": "text"
+                },
+                {
+                  "key": "totalExperience",
+                  "value": "3 years",
+                  "type": "text"
+                },
+                {
+                  "key": "currentCompany",
+                  "value": "Current Company",
+                  "type": "text"
+                },
+                {
+                  "key": "currentSalary",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "expectedSalary",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "noticePeriod",
+                  "value": "30 days",
+                  "type": "text"
+                },
+                {
+                  "key": "coverLetter",
+                  "value": "Cover letter from Postman.",
+                  "type": "text"
+                },
+                {
+                  "key": "message",
+                  "value": "Application message from Postman.",
+                  "type": "text"
+                },
+                {
+                  "key": "sourcePage",
+                  "value": "/career-advertisement",
+                  "type": "text"
+                },
+                {
+                  "key": "resume",
+                  "type": "file",
+                  "src": "{{resumeFilePath}}"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/{{websiteKey}}/careers/{{careerSlug}}/apply",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "{{websiteKey}}",
+                "careers",
+                "{{careerSlug}}",
+                "apply"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
