@@ -17,7 +17,17 @@ interface Props {
   slides: ISlider[];
 }
 
+import { useState, useEffect } from 'react';
+
 export function DivisionHeroSliderClient({ slides }: Props) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const visibleSlides = isMounted ? slides : (slides.length > 0 ? [slides[0]] : []);
+
   return (
     <div className="relative h-[80svh] min-h-[500px] w-full bg-brand-navy overflow-hidden">
       <Swiper
@@ -29,8 +39,9 @@ export function DivisionHeroSliderClient({ slides }: Props) {
         navigation
         className="h-full w-full"
       >
-        {slides.map((slide: ISlider, index: number) => (
-          <SwiperSlide key={slide._id || index}>
+        {visibleSlides.map((slide: ISlider, index: number) => {
+          return (
+            <SwiperSlide key={slide._id || index}>
             {({ isActive }) => (
               <div className="relative h-full w-full flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
@@ -41,6 +52,8 @@ export function DivisionHeroSliderClient({ slides }: Props) {
                       fill
                       priority={index === 0}
                       loading={index === 0 ? undefined : 'lazy'}
+                      fetchPriority={index === 0 ? 'high' : 'low'}
+                      sizes="100vw"
                       className={`object-cover transition-transform duration-[10000ms] ${isActive ? 'scale-110' : 'scale-100'}`}
                     />
                 </div>
@@ -76,7 +89,7 @@ export function DivisionHeroSliderClient({ slides }: Props) {
               </div>
             )}
           </SwiperSlide>
-        ))}
+        )})}
       </Swiper>
     </div>
   );

@@ -1,3 +1,0 @@
-:HL["/_next/static/chunks/0yn0eimf0g-nj.css","style"]
-:HL["/_next/static/media/cb065f3ef140709c-s.p.1eqdc75fykitr.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"projects","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"lifting-positioning","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"-lhiEmYY50bL3jYHS4vrT"}

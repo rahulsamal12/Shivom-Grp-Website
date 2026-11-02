@@ -9,6 +9,8 @@ const REVALIDATE_SECONDS = 300;
 type ApiRequestConfig = {
   headers?: HeadersInit;
   params?: Record<string, string | number | boolean | null | undefined>;
+  next?: NextFetchRequestConfig;
+  cache?: RequestCache;
 };
 
 type ApiResponse<T> = {
@@ -84,7 +86,8 @@ const apiFetch = async <T>(
     method,
     headers,
     body: method === 'POST' ? (isFormData ? body : JSON.stringify(body ?? {})) : undefined,
-    next: {
+    cache: config.cache,
+    next: config.next || {
       revalidate: REVALIDATE_SECONDS,
     },
   });

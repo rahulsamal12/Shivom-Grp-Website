@@ -7,15 +7,14 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { useSubmitContact } from '@/hooks/useContact';
-import { 
-  Phone, 
-  Mail, 
-  Globe, 
-  Building, 
-  Factory, 
-  CheckCircle2, 
-  AlertCircle, 
-  Loader2 
+import {
+  Phone,
+  Mail,
+  Globe,
+  Building,
+  CheckCircle2,
+  AlertCircle,
+  Loader2
 } from 'lucide-react';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 
@@ -145,55 +144,24 @@ export default function ContactPage() {
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             "name": "SHIVOM SOLAR SOLUTIONS",
-            "image": "https://shivomgroup.in/logo.png",
+            "image": "https://shivomgroup.in/logo.webp",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "2nd Floor, Plot No.3200/14046, PS- Mancheswar, Puri-By-Pass Road, Rasulgarh",
+              "streetAddress": "Plot No. 41, Sect. A, Zone B, Near KTM Showroom, Mancheswar",
               "addressLocality": "Bhubaneswar",
               "addressRegion": "Odisha",
               "postalCode": "751010",
               "addressCountry": "IN"
             },
-            "telephone": "+91 8895865734",
             "email": "info@shivomgroup.in",
-            "url": "https://shivomgroup.in",
-            "contactPoint": [
-              {
-                "@type": "ContactPoint",
-                "telephone": "+91 8895197406",
-                "contactType": "Solar Support",
-                "areaServed": "IN",
-                "availableLanguage": ["en", "hi", "or"]
-              },
-              {
-                "@type": "ContactPoint",
-                "telephone": "+91 7504929429",
-                "contactType": "Project Support",
-                "areaServed": "IN",
-                "availableLanguage": ["en", "hi", "or"]
-              },
-              {
-                "@type": "ContactPoint",
-                "telephone": "+91 6204929709",
-                "contactType": "Manufacturing Support",
-                "areaServed": "IN",
-                "availableLanguage": ["en", "hi", "or"]
-              },
-              {
-                "@type": "ContactPoint",
-                "telephone": "+91 8895865734",
-                "contactType": "HR Support",
-                "areaServed": "IN",
-                "availableLanguage": ["en", "hi", "or"]
-              }
-            ]
+            "url": "https://shivomgroup.in"
           })
         }}
       />
       {/* SECTION 1: PAGE BANNER */}
-      <PageBanner 
-        title="Contact Shivom Group" 
-        subtitle="Let's Build Infrastructure Together" 
+      <PageBanner
+        title="Contact Shivom Group"
+        subtitle="Let's Build Infrastructure Together"
         breadcrumb="Contact"
         bgImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000"
       />
@@ -201,7 +169,7 @@ export default function ContactPage() {
       {/* Main Content Grid: Info & Form */}
       <section id="contact-form-section" className="py-24 bg-gray-50/50">
         <div className="container mx-auto px-4 md:px-6">
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start"
             variants={staggerContainer}
             initial="hidden"
@@ -222,55 +190,21 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              {/* Office 1 (Primary): SHIVOM SOLAR SOLUTIONS */}
+              {/* Office: SHIVOM GROUP */}
               <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition-shadow">
                 <div className="w-12 h-12 rounded-lg bg-brand-orange/10 flex items-center justify-center shrink-0">
                   <Building className="w-6 h-6 text-brand-orange" />
                 </div>
                 <div>
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <h3 className="text-lg font-bold text-brand-navy">SHIVOM SOLAR SOLUTIONS</h3>
+                    <h3 className="text-lg font-bold text-brand-navy">SHIVOM GROUP</h3>
                     <span className="bg-brand-orange/15 text-brand-orange text-xs px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Primary</span>
                   </div>
                   <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line mb-3">
-                    2nd Floor, Plot No.3200/14046{"\n"}
-                    PS- Mancheswar, Puri-By-Pass Road{"\n"}
-                    Rasulgarh, Bhubaneswar - 751010{"\n"}
+                    Plot No. 41, Sect. A, Zone B{"\n"}
+                    Near KTM Showroom, Mancheswar{"\n"}
+                    Bhubaneswar – 751010{"\n"}
                     Odisha, India
-                  </p>
-                  <p className="text-xs text-brand-orange font-bold">GSTIN: 21BOKPS6552Q1Z7</p>
-                </div>
-              </div>
-
-              {/* Office 2: Corporate Office */}
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 rounded-lg bg-brand-orange/10 flex items-center justify-center shrink-0">
-                  <Building className="w-6 h-6 text-brand-orange" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-brand-navy mb-2">Corporate Office</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
-                    Akshay Nagar{"\n"}
-                    Katapali Road{"\n"}
-                    Bargarh{"\n"}
-                    Odisha – 768028
-                  </p>
-                </div>
-              </div>
-
-              {/* Office 3: Manufacturing Unit */}
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex gap-4 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 rounded-lg bg-brand-blue/10 flex items-center justify-center shrink-0">
-                  <Factory className="w-6 h-6 text-brand-blue" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-brand-navy mb-2">Manufacturing Unit</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
-                    Khuntpali{"\n"}
-                    Talpali{"\n"}
-                    Gaisilet{"\n"}
-                    Bargarh{"\n"}
-                    Odisha – 768036
                   </p>
                 </div>
               </div>
@@ -278,18 +212,6 @@ export default function ContactPage() {
               {/* Quick Contact Details */}
               <div className="bg-brand-navy rounded-xl p-8 text-white space-y-6">
                 <h3 className="text-xl font-bold text-brand-orange mb-4">Direct Details</h3>
-                
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                    <Phone className="w-5 h-5 text-brand-orange" />
-                  </div>
-                  <div>
-                    <span className="text-xs text-gray-400 block font-semibold uppercase tracking-wider">Phone</span>
-                    <a href="tel:+918895865734" className="text-white hover:text-brand-orange-light transition-colors font-medium">
-                      +91 88958 65734
-                    </a>
-                  </div>
-                </div>
 
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
@@ -310,7 +232,7 @@ export default function ContactPage() {
                   <div>
                     <span className="text-xs text-gray-400 block font-semibold uppercase tracking-wider">Website</span>
                     <a href="https://shivomgroup.in" target="_blank" rel="noopener noreferrer" className="text-white hover:text-brand-orange-light transition-colors font-medium">
-                      https://shivomgroup.in
+                      shivomgroup.in
                     </a>
                   </div>
                 </div>
@@ -324,7 +246,7 @@ export default function ContactPage() {
                 <p className="text-gray-500 text-sm mb-8">Please fill in the details below. Our corporate executives will reach back to you within 24 business hours.</p>
 
                 {submitStatus === 'success' && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-6 p-6 bg-green-50 border border-green-200 rounded-xl text-green-800 flex gap-3 items-start"
@@ -338,7 +260,7 @@ export default function ContactPage() {
                 )}
 
                 {submitStatus === 'error' && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-6 p-6 bg-red-50 border border-red-200 rounded-xl text-red-800 flex gap-3 items-start"
@@ -355,9 +277,9 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="flex flex-col gap-1.5">
                       <label htmlFor="contact-name-input" className="text-sm font-semibold text-brand-navy">Full Name</label>
-                      <Input 
+                      <Input
                         id="contact-name-input"
-                        name="name" 
+                        name="name"
                         value={formData.name}
                         onChange={handleInputChange}
                         error={errors.name}
@@ -368,9 +290,9 @@ export default function ContactPage() {
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label htmlFor="contact-email-input" className="text-sm font-semibold text-brand-navy">Email Address</label>
-                      <Input 
+                      <Input
                         id="contact-email-input"
-                        name="email" 
+                        name="email"
                         type="email"
                         value={formData.email}
                         onChange={handleInputChange}
@@ -385,22 +307,22 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="flex flex-col gap-1.5">
                       <label htmlFor="contact-phone-input" className="text-sm font-semibold text-brand-navy">Phone Number</label>
-                      <Input 
+                      <Input
                         id="contact-phone-input"
-                        name="phone" 
+                        name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
                         error={errors.phone}
-                        placeholder="+91 88958 65734"
+                        placeholder="Enter your contact number"
                         required
                         disabled={isPending}
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label htmlFor="contact-subject-input" className="text-sm font-semibold text-brand-navy">Subject</label>
-                      <Input 
+                      <Input
                         id="contact-subject-input"
-                        name="subject" 
+                        name="subject"
                         value={formData.subject}
                         onChange={handleInputChange}
                         error={errors.subject}
@@ -413,9 +335,9 @@ export default function ContactPage() {
 
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="contact-message-input" className="text-sm font-semibold text-brand-navy">Message Details</label>
-                    <Textarea 
+                    <Textarea
                       id="contact-message-input"
-                      name="message" 
+                      name="message"
                       value={formData.message}
                       onChange={handleInputChange}
                       error={errors.message}
@@ -426,10 +348,10 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  <Button 
-                    type="submit" 
-                    className="w-full flex items-center justify-center gap-2" 
-                    size="lg" 
+                  <Button
+                    type="submit"
+                    className="w-full flex items-center justify-center gap-2"
+                    size="lg"
                     disabled={isPending}
                   >
                     {isPending ? (
@@ -445,31 +367,43 @@ export default function ContactPage() {
               </div>
 
               {/* Map Section */}
-              <div className="bg-white rounded-2xl p-8 md:p-10 shadow-lg border border-gray-100 space-y-6">
-                <div className="text-center mb-6">
-                  <span className="text-brand-orange uppercase tracking-wider text-xs font-semibold block">
-                    Our Location
-                  </span>
-                  <h2 className="text-3xl font-bold text-brand-navy mt-2">
-                    Visit Our Office
-                  </h2>
-                  <p className="text-gray-600 mt-4 text-sm leading-relaxed">
-                    Meet our team at our Bhubaneswar office for consultations regarding solar energy, EPC infrastructure projects, PSC pole manufacturing, and utility solutions.
-                  </p>
-                </div>
+              <div className="relative overflow-hidden rounded-2xl shadow-lg border border-gray-100 group h-[450px] md:h-[600px] lg:h-[700px]">
+                <iframe
+                  src="https://maps.google.com/maps?q=KTM+Showroom+Mancheswar+Bhubaneswar+Odisha+751010&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-full transition-all duration-500"
+                  title="Shivom Group Location Map Mancheswar Bhubaneswar Odisha"
+                />
 
-                <div className="overflow-hidden rounded-2xl shadow-lg border border-gray-150 h-[320px] md:h-[400px] lg:h-[450px]">
-                  <iframe
-                    src="https://www.google.com/maps?q=SHIVOM+SOLAR+SOLUTIONS+Rasulgarh+Bhubaneswar+Odisha+751010&output=embed"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen={true}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="w-full h-full grayscale opacity-85 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
-                    title="SHIVOM SOLAR SOLUTIONS Location Map Rasulgarh Bhubaneswar Odisha"
-                  />
+                {/* Floating Contact Card */}
+                <div className="absolute top-4 left-4 right-4 md:right-auto md:w-80 bg-white/95 backdrop-blur-md p-6 rounded-xl shadow-xl border border-gray-100/50 transition-all duration-300 group-hover:shadow-2xl">
+                  <div className="flex flex-col gap-3">
+                    <div>
+                      <h4 className="text-lg font-bold text-brand-navy flex items-center gap-2">
+                        <Building className="w-5 h-5 text-brand-orange shrink-0" />
+                        <span>Shivom Group</span>
+                      </h4>
+                      <p className="text-gray-600 text-xs mt-2 leading-relaxed">
+                        Plot No. 41, Sect. A, Zone B, Near KTM Showroom, Mancheswar, Bhubaneswar – 751010, Odisha, India
+                      </p>
+                    </div>
+
+
+
+                    <a
+                      href="https://www.google.com/maps/dir/?api=1&destination=KTM+Showroom+Mancheswar+Bhubaneswar+Odisha+751010"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-orange hover:bg-brand-orange-light text-white text-xs font-bold rounded-lg transition-all shadow-md hover:shadow-lg text-center"
+                    >
+                      Get Directions
+                    </a>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -477,105 +411,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* SECTION 4: DEPARTMENT CONTACTS */}
-      <section className="py-24 bg-gray-50 border-t border-b border-gray-200/50">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-16 max-w-3xl mx-auto">
-            <span className="text-brand-orange font-semibold tracking-wider uppercase text-sm mb-3 block">
-              Direct Channels
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-brand-navy mb-4">
-              Department Contacts
-            </h2>
-            <p className="text-gray-600 text-sm md:text-base leading-relaxed">
-              Reach out directly to our division managers and administrators for swift query resolution.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Solar Division */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-              <div>
-                <span className="bg-brand-orange/10 text-brand-orange text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">
-                  Solar Division
-                </span>
-                <h3 className="text-xl font-bold text-brand-navy mb-1">Mr. Debendra Kumar Mishra</h3>
-                <p className="text-gray-500 text-sm font-semibold mb-6">Manager (Solar)</p>
-              </div>
-              <a 
-                href="tel:+918895197406" 
-                className="flex items-center justify-center gap-2 bg-brand-navy text-white hover:bg-brand-orange hover:text-white transition-colors py-3 px-4 rounded-xl font-semibold text-sm cursor-pointer"
-              >
-                <Phone className="w-4 h-4" />
-                <span>+91 88951 97406</span>
-              </a>
-            </div>
-
-            {/* Enterprise Division */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-              <div>
-                <span className="bg-brand-blue/10 text-brand-blue text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">
-                  Enterprise Division
-                </span>
-                <h3 className="text-xl font-bold text-brand-navy mb-1">Mr. Manoranjan Bal</h3>
-                <p className="text-gray-500 text-sm font-semibold mb-6">Project Manager</p>
-              </div>
-              <a 
-                href="tel:+917504929429" 
-                className="flex items-center justify-center gap-2 bg-brand-navy text-white hover:bg-brand-orange hover:text-white transition-colors py-3 px-4 rounded-xl font-semibold text-sm cursor-pointer"
-              >
-                <Phone className="w-4 h-4" />
-                <span>+91 75049 29429</span>
-              </a>
-            </div>
-
-            {/* Concrete Division */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-              <div>
-                <span className="bg-gray-100 text-gray-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">
-                  Concrete Division
-                </span>
-                <h3 className="text-xl font-bold text-brand-navy mb-1">Mr. Sunil Kumar Nayak</h3>
-                <p className="text-gray-500 text-sm font-semibold mb-6">Manager</p>
-              </div>
-              <a 
-                href="tel:+916204929709" 
-                className="flex items-center justify-center gap-2 bg-brand-navy text-white hover:bg-brand-orange hover:text-white transition-colors py-3 px-4 rounded-xl font-semibold text-sm cursor-pointer"
-              >
-                <Phone className="w-4 h-4" />
-                <span>+91 62049 29709</span>
-              </a>
-            </div>
-
-            {/* HR & Accounts */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-150 flex flex-col justify-between hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-              <div>
-                <span className="bg-brand-navy/10 text-brand-navy text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">
-                  HR & Accounts
-                </span>
-                <h3 className="text-xl font-bold text-brand-navy mb-1">Mr. Satyam Singh</h3>
-                <p className="text-gray-500 text-sm font-semibold mb-6">HR & Accounts Manager</p>
-              </div>
-              <div className="flex flex-col gap-2">
-                <a 
-                  href="tel:+918895865734" 
-                  className="flex items-center justify-center gap-2 bg-brand-navy text-white hover:bg-brand-orange hover:text-white transition-colors py-2.5 px-4 rounded-xl font-semibold text-xs md:text-sm cursor-pointer"
-                >
-                  <Phone className="w-3.5 h-3.5" />
-                  <span>+91 88958 65734</span>
-                </a>
-                <a 
-                  href="mailto:hr@shivomgroup.in" 
-                  className="flex items-center justify-center gap-2 bg-brand-navy text-white hover:bg-brand-orange hover:text-white transition-colors py-2.5 px-4 rounded-xl font-semibold text-xs md:text-sm cursor-pointer"
-                >
-                  <Mail className="w-3.5 h-3.5" />
-                  <span>hr@shivomgroup.in</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* SECTION 5: BUSINESS CTA */}
       <section className="py-20 bg-brand-navy text-white text-center relative overflow-hidden">
@@ -593,9 +429,9 @@ export default function ContactPage() {
             <p className="text-gray-300 text-lg mb-8 max-w-xl mx-auto">
               Our technical experts are ready to collaborate on utility and custom infrastructure project blueprints.
             </p>
-            <Button 
-              onClick={scrollToForm} 
-              variant="primary" 
+            <Button
+              onClick={scrollToForm}
+              variant="primary"
               size="lg"
               className="bg-brand-orange hover:bg-brand-orange-light hover:scale-105 active:scale-95 transition-all text-white px-8"
             >

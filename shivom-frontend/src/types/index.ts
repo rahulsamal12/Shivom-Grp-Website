@@ -41,6 +41,8 @@ export interface ISlider {
   image: string;
   mobileImage?: string;
   order: number;
+  status?: string;
+  isActive?: boolean;
 }
 
 export interface IProject {
@@ -59,6 +61,8 @@ export interface IProject {
   order: number;
   metaTitle?: string;
   metaDescription?: string;
+  status?: string;
+  createdAt?: string;
 }
 
 export interface IBlog {
@@ -153,6 +157,7 @@ export interface IClient {
   name: string;
   logo: string;
   website?: string;
+  websiteUrl?: string;
   order: number;
 }
 

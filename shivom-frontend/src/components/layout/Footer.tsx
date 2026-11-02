@@ -1,13 +1,23 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Phone, Mail, ShieldCheck } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { Mail, Phone, MapPin, ShieldCheck } from 'lucide-react';
 
 export function Footer() {
+  const pathname = usePathname();
+
+  const isActive = (path: string) => {
+    if (path === '/' && pathname !== '/') return false;
+    return pathname === path || pathname.startsWith(`${path}/`);
+  };
+
   return (
     <footer className="bg-brand-navy text-white pt-16 pb-8 border-t border-white/5">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 mb-12">
-          {/* Column 1: Company Logo & Info */}
+          {/* Company Info */}
           <div className="flex flex-col">
             <Link href="/" className="inline-block mb-6 group">
               <div className="relative inline-block">
@@ -17,7 +27,7 @@ export function Footer() {
                   alt="Shivom Group Footer Logo" 
                   width={360} 
                   height={72} 
-                  className="w-auto h-20 md:h-24 object-contain relative z-10 drop-shadow-md group-hover:scale-105 transition-transform duration-300"
+                  className="w-auto h-20 md:h-24 object-contain relative z-10 drop-shadow-md group-hover:scale-105 transition-transform duration-300" 
                 />
               </div>
             </Link>
@@ -40,29 +50,49 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Quick Links */}
           <div>
             <h4 className="text-lg font-semibold mb-6 text-white border-b border-white/10 pb-2 inline-block">Quick Links</h4>
             <ul className="space-y-3">
-              <li><Link href="/" className="transition-all duration-300 text-sm flex items-center gap-2 text-gray-400 hover:text-white hover:translate-x-1">Home</Link></li>
-              <li><Link href="/about" className="transition-all duration-300 text-sm flex items-center gap-2 text-gray-400 hover:text-white hover:translate-x-1">About Us</Link></li>
-              <li><Link href="/awards-certifications" className="transition-all duration-300 text-sm flex items-center gap-2 text-gray-400 hover:text-white hover:translate-x-1">Awards & Certifications</Link></li>
-              <li><Link href="/projects" className="transition-all duration-300 text-sm flex items-center gap-2 text-gray-400 hover:text-white hover:translate-x-1">Projects</Link></li>
-              <li><Link href="/events" className="transition-all duration-300 text-sm flex items-center gap-2 text-gray-400 hover:text-white hover:translate-x-1">Events</Link></li>
-              <li><Link href="/blogs" className="transition-all duration-300 text-sm flex items-center gap-2 text-gray-400 hover:text-white hover:translate-x-1">Blogs</Link></li>
-              <li><Link href="/careers" className="transition-all duration-300 text-sm flex items-center gap-2 text-gray-400 hover:text-white hover:translate-x-1">Careers</Link></li>
-              <li><Link href="/contact" className="transition-all duration-300 text-sm flex items-center gap-2 text-gray-400 hover:text-white hover:translate-x-1">Contact Us</Link></li>
+              {[
+                { label: 'Home', href: '/' },
+                { label: 'About Us', href: '/about' },
+                { label: 'Awards & Certifications', href: '/awards-certifications' },
+                { label: 'Projects', href: '/projects' },
+                { label: 'Events', href: '/events' },
+                { label: 'Blogs', href: '/blogs' },
+                { label: 'Careers', href: '/careers' },
+                { label: 'Contact Us', href: '/contact' },
+              ].map(link => (
+                <li key={link.href}>
+                  <Link href={link.href} className={`transition-all duration-300 text-sm flex items-center gap-2 ${isActive(link.href) ? 'text-brand-orange font-medium translate-x-1' : 'text-gray-400 hover:text-white hover:translate-x-1'}`}>
+                    {isActive(link.href) && <div className="w-1.5 h-1.5 rounded-full bg-brand-orange shrink-0" />}
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Column 3: Our Group Companies */}
+          {/* Our Group */}
           <div>
             <h4 className="text-lg font-semibold mb-6 text-white border-b border-white/10 pb-2 inline-block">Our Group</h4>
             <ul className="space-y-3 mb-8">
-              <li><Link href="/our-group/enterprise" className="transition-all duration-300 text-sm flex items-center gap-2 text-gray-400 hover:text-white hover:translate-x-1">Shivom Enterprise</Link></li>
-              <li><Link href="/our-group/solar" className="transition-all duration-300 text-sm flex items-center gap-2 text-gray-400 hover:text-white hover:translate-x-1">Shivom Solar Solutions</Link></li>
-              <li><Link href="/our-group/concrete" className="transition-all duration-300 text-sm flex items-center gap-2 text-gray-400 hover:text-white hover:translate-x-1">Shivom Concrete Products</Link></li>
+              {[
+                { label: 'Shivom Enterprise', href: '/our-group/enterprise' },
+                { label: 'Shivom Solar Solutions', href: '/our-group/solar' },
+                { label: 'Shivom Concrete Products', href: '/our-group/concrete' },
+              ].map(link => (
+                <li key={link.href}>
+                  <Link href={link.href} className={`transition-all duration-300 text-sm flex items-center gap-2 ${isActive(link.href) ? 'text-brand-orange font-medium translate-x-1' : 'text-gray-400 hover:text-white hover:translate-x-1'}`}>
+                    {isActive(link.href) && <div className="w-1.5 h-1.5 rounded-full bg-brand-orange shrink-0" />}
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
+            
+            {/* Solar Solutions Branding Badge */}
             <div className="bg-brand-orange/10 border border-brand-orange/30 rounded-lg p-3 inline-flex items-start gap-3 shadow-[0_0_15px_rgba(249,115,22,0.05)] transition-all hover:bg-brand-orange/20 cursor-default">
               <ShieldCheck className="w-5 h-5 text-brand-orange shrink-0 mt-0.5" />
               <div>
@@ -72,30 +102,29 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Column 4: Contact Info & GSTIN */}
+          {/* Contact */}
           <div className="mt-2 md:mt-0">
             <h4 className="text-lg font-semibold mb-6 text-white border-b border-white/10 pb-2 inline-block">Contact Info</h4>
             <div className="space-y-6">
+              {/* Office Address */}
               <div className="flex gap-4 text-sm text-gray-400 group">
                 <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-brand-orange group-hover:border-brand-orange transition-all duration-300">
                   <MapPin className="w-4 h-4 text-white" />
                 </div>
                 <div className="flex flex-col gap-1.5 pt-1.5">
                   <span className="font-bold text-white tracking-wider text-xs">SHIVOM GROUP</span>
-                  <span className="leading-relaxed">2nd Floor, Plot No. 3200/14046<br />PS-Mancheswar, Puri Bypass Road<br />Rasulgarh, Bhubaneswar – 751010<br />Odisha, India</span>
-                  <div className="mt-2 bg-white/5 border border-white/10 rounded px-2.5 py-1 inline-flex w-max items-center shadow-inner">
-                    <span className="text-[11px] font-mono text-gray-300 tracking-wider"><strong className="text-white">GSTIN:</strong> 21BOKPS6552Q1Z7</span>
-                  </div>
+                  <span className="leading-relaxed">
+                    Plot No. 41, Sect. A, Zone B<br />
+                    Near KTM Showroom, Mancheswar<br />
+                    Bhubaneswar – 751010<br />
+                    Odisha, India
+                  </span>
                 </div>
               </div>
-              <div className="flex gap-4 text-sm text-gray-400 group">
-                <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-brand-orange group-hover:border-brand-orange transition-all duration-300">
-                  <Phone className="w-4 h-4 text-white" />
-                </div>
-                <div className="flex flex-col justify-center">
-                  <a href="tel:+918895197406" className="text-white font-medium hover:text-brand-orange transition-colors text-base block">+91 8895197406</a>
-                </div>
-              </div>
+              
+
+
+              {/* Emails */}
               <div className="flex gap-4 text-sm text-gray-400 group">
                 <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-brand-orange group-hover:border-brand-orange transition-all duration-300">
                   <Mail className="w-4 h-4 text-white" />
@@ -112,7 +141,18 @@ export function Footer() {
         <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-gray-400 text-sm text-center md:text-left flex flex-col gap-1.5">
             <span>© {new Date().getFullYear()} Shivom Group. All Rights Reserved.</span>
-            <span className="text-xs opacity-70">Designed & Developed by <a href="https://visital.in" target="_blank" rel="noopener noreferrer" className="hover:text-brand-orange transition-colors duration-300">Visital Technologies</a>.</span>
+            <span className="text-xs opacity-70">
+              Designed & Developed by{' '}
+              <a
+                href="https://visital.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Visital Technologies website"
+                className="hover:text-brand-orange transition-colors duration-300"
+              >
+                Visital Technologies
+              </a>.
+            </span>
           </div>
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-3">
             <Link href="/privacy-policy" className="text-sm text-gray-400 hover:text-white transition-colors">Privacy Policy</Link>

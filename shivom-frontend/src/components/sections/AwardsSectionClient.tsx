@@ -51,14 +51,14 @@ export function AwardsSectionClient({ awards }: Props) {
               )}
             </div>
             {award.image && (
-              <div className="relative h-40 w-full rounded-lg overflow-hidden mt-4 bg-white border border-gray-100 shadow-sm">
+              <div className="relative h-40 w-full rounded-lg overflow-hidden mt-4 bg-white border border-gray-100 shadow-sm p-2">
                 <Image
                   loading="lazy"
                   src={award.image}
                   alt={award.title}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  className="object-cover"
+                  className="object-contain object-center"
                 />
               </div>
             )}

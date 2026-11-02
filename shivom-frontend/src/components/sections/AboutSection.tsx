@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer, slideInRight } from '@/lib/animations';
 import { Button } from '../ui/Button';
@@ -11,6 +12,34 @@ import Link from 'next/link';
 export function AboutSection() {
   const { data } = useHome();
   const aboutData = data?.data?.about;
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const motionProps = (variants: any) => {
+    if (isMobile) {
+      return {
+        initial: "visible",
+        animate: "visible",
+        variants: {
+          visible: { opacity: 1, y: 0, x: 0, scale: 1 }
+        }
+      };
+    }
+    return {
+      initial: "hidden",
+      whileInView: "visible",
+      viewport: { once: true, margin: "-100px" },
+      variants
+    };
+  };
 
   const title = aboutData?.title || 'Engineering the Future of Infrastructure & Energy.';
   const description = aboutData?.description || 'As a premier Odisha-based conglomerate, Shivom Group executes large-scale government and utility projects across power distribution, renewable energy, and civil infrastructure.';
@@ -33,13 +62,10 @@ export function AboutSection() {
           {/* Left Column: Structured Brand Copy (7 Columns) */}
           <motion.div 
             className="lg:col-span-7 space-y-6"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            {...motionProps(staggerContainer)}
           >
             {/* Subtitle Tag with Indicator */}
-            <motion.div variants={fadeUp} className="flex items-center gap-2">
+            <motion.div {...motionProps(fadeUp)} className="flex items-center gap-2">
               <span className="w-8 h-[2px] bg-brand-orange rounded-full" />
               <span className="text-brand-orange font-bold tracking-widest uppercase text-xs">
                 About Shivom Group
@@ -48,7 +74,7 @@ export function AboutSection() {
 
             {/* Dynamic Headline */}
             <motion.h2 
-              variants={fadeUp} 
+              {...motionProps(fadeUp)} 
               className="text-4xl md:text-5xl lg:text-6xl font-black text-brand-navy leading-tight tracking-tight"
             >
               {title}
@@ -56,17 +82,17 @@ export function AboutSection() {
 
             {/* Description Block */}
             <div className="space-y-4">
-              <motion.p variants={fadeUp} className="text-gray-600 text-lg leading-relaxed">
+              <motion.p {...motionProps(fadeUp)} className="text-gray-600 text-lg leading-relaxed">
                 {description}
               </motion.p>
-              <motion.p variants={fadeUp} className="text-gray-600 text-lg leading-relaxed">
-                We leverage our extensive manufacturing strength—including 500+ PSC poles daily capacity—and highly skilled workforce to deliver sustainable solutions that power Odisha&apos;s growth.
+              <motion.p {...motionProps(fadeUp)} className="text-gray-600 text-lg leading-relaxed">
+                We leverage our extensive manufacturing strength—including 200+ PSC poles daily capacity—and highly skilled workforce to deliver sustainable solutions that power Odisha&apos;s growth.
               </motion.p>
             </div>
 
             {/* Structured Mini-Metrics Grid */}
             <motion.div 
-              variants={fadeUp}
+              {...motionProps(fadeUp)}
               className="grid grid-cols-1 sm:grid-cols-2 gap-6 py-6 border-y border-gray-100"
             >
               <div className="flex flex-col">
@@ -79,7 +105,7 @@ export function AboutSection() {
               </div>
               <div className="flex flex-col">
                 <span className="text-3xl font-extrabold text-brand-blue mb-1">
-                  500+ Poles
+                  200+ Poles
                 </span>
                 <span className="text-sm font-bold text-brand-navy uppercase tracking-wider">
                   Daily PSC Pole Production
@@ -88,7 +114,7 @@ export function AboutSection() {
             </motion.div>
             
             {/* Dual Button CTA */}
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4 pt-2">
+            <motion.div {...motionProps(fadeUp)} className="flex flex-wrap gap-4 pt-2">
               <Link prefetch={false} href="/about">
                 <Button size="lg" variant="primary">
                   {aboutData?.buttonText || 'Discover Our History'}
@@ -109,10 +135,7 @@ export function AboutSection() {
           {/* Right Column: Layered 3-Image Collage (5 Columns) */}
           <motion.div 
             className="lg:col-span-5 relative h-[550px] w-full"
-            variants={slideInRight}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            {...motionProps(slideInRight)}
           >
             {/* Main Primary Image: Power Infrastructure / EPC (80% W, 70% H) */}
             <div className="absolute top-0 right-0 w-[82%] h-[72%] rounded-2xl overflow-hidden shadow-lg border border-gray-100">

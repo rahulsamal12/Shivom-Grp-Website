@@ -77,7 +77,7 @@ const whyChooseUs = [
   {
     icon: <Factory className="w-8 h-8 text-brand-orange" />,
     title: 'Manufacturing Capability',
-    desc: 'In-house production with a high-capacity unit manufacturing over 500+ PSC poles daily.',
+    desc: 'In-house production with a high-capacity unit manufacturing over 200+ PSC poles daily.',
   },
   {
     icon: <Shield className="w-8 h-8 text-brand-orange" />,
@@ -124,10 +124,10 @@ export function AboutClient({ aboutData }: AboutClientProps) {
                 {cmsTitle}
               </motion.h2>
               <motion.div variants={fadeUp} className="space-y-4">
-                <p className="text-gray-600 text-lg leading-relaxed">
+                <p className="text-gray-600 text-lg text-justify-content">
                   {cmsDescription}
                 </p>
-                <p className="text-gray-600 text-lg leading-relaxed">
+                <p className="text-gray-600 text-lg text-justify-content">
                   By integrating specialized project management teams, robust manufacturing workflows,
                   and cutting-edge EPC technology, we guarantee the successful deployment of
                   large-scale infrastructure solutions that power millions of homes.
@@ -148,7 +148,7 @@ export function AboutClient({ aboutData }: AboutClientProps) {
                 fill
                 loading="lazy"
                 className="object-cover rounded-2xl shadow-xl"
-              />
+               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
             </motion.div>
           </div>
         </div>
@@ -169,7 +169,7 @@ export function AboutClient({ aboutData }: AboutClientProps) {
                 <Target className="w-8 h-8" />
               </div>
               <h2 className="text-2xl font-bold text-brand-navy">Our Vision</h2>
-              <p className="text-gray-600 leading-relaxed text-lg">
+              <p className="text-gray-600 text-lg text-justify-content">
                 To be the most trusted name in multi-disciplinary infrastructure development,
                 recognized for pioneering sustainable grid solutions, clean renewable energy
                 products, and high-performance concrete manufacturing.
@@ -187,7 +187,7 @@ export function AboutClient({ aboutData }: AboutClientProps) {
                 <Eye className="w-8 h-8" />
               </div>
               <h2 className="text-2xl font-bold text-brand-navy">Our Mission</h2>
-              <p className="text-gray-600 leading-relaxed text-lg">
+              <p className="text-gray-600 text-lg text-justify-content">
                 To build resilient electrification networks, deliver efficient solar EPC execution,
                 and supply top-grade PSC poles with zero compromises on quality, safety, or timeline
                 adherence.
@@ -214,12 +214,12 @@ export function AboutClient({ aboutData }: AboutClientProps) {
 
               <div className="relative w-full max-w-[400px] h-[500px] rounded-2xl overflow-hidden shadow-2xl border-4 border-white group">
                 <Image
-                  src="/md-photo.jpg"
+                  src="/md-photo.webp"
                   alt="Mr. Ambika Prasad Samal"
                   fill
                   loading="lazy"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/60 via-transparent to-transparent opacity-60 mix-blend-multiply" />
               </div>
             </motion.div>
@@ -244,19 +244,19 @@ export function AboutClient({ aboutData }: AboutClientProps) {
                 </h2>
               </motion.div>
 
-              <motion.p variants={fadeUp} className="text-gray-600 text-lg leading-relaxed italic">
+              <motion.p variants={fadeUp} className="text-gray-600 text-lg text-justify-content italic">
                 &ldquo;{mdMessage}&rdquo;
               </motion.p>
 
               <motion.div variants={fadeUp} className="border-t border-gray-100 pt-6 mt-4 space-y-4">
                 <div className="relative w-[200px] h-20">
                   <Image
-                    src="/signature.png"
+                    src="/signature.webp"
                     alt="Signature of Mr. Ambika Prasad Samal, Managing Director"
                     fill
                     loading="lazy"
                     className="object-contain object-left"
-                  />
+                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                 </div>
                 <div className="space-y-0.5">
                   <h3 className="text-xl font-bold text-brand-navy">Mr. Ambika Prasad Samal</h3>
@@ -335,7 +335,7 @@ export function AboutClient({ aboutData }: AboutClientProps) {
                   fill
                   loading="lazy"
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
+                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-blue via-brand-blue/40 to-transparent opacity-85 transition-opacity duration-300 group-hover:opacity-90" />
 
@@ -385,7 +385,7 @@ export function AboutClient({ aboutData }: AboutClientProps) {
                   <h3 className="text-xl font-bold text-brand-navy group-hover:text-brand-orange transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">{item.desc}</p>
+                  <p className="text-gray-600 text-justify-content">{item.desc}</p>
                 </div>
               </motion.div>
             ))}

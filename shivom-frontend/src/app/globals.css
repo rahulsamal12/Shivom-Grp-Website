@@ -70,3 +70,11 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-brand-orange-light);
 }
+
+@layer utilities {
+  .text-justify-content {
+    @apply text-left md:text-justify leading-relaxed;
+    hyphens: auto;
+  }
+}
+

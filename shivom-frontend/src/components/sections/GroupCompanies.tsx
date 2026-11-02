@@ -34,11 +34,11 @@ const divisions = [
     name: 'Shivom Concrete Products',
     ctaText: 'Explore Concrete',
     icon: Factory,
-    desc: 'Manufacturing excellence with 500+ PSC poles/day production capacity.',
+    desc: 'Manufacturing excellence with 200+ PSC poles/day production capacity.',
     href: '/our-group/concrete',
     color: 'bg-gray-100 text-brand-navy',
     image: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=600',
-    overlayText: '500+ PSC Poles / Day'
+    overlayText: '200+ PSC Poles / Day'
   }
 ];
 

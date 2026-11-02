@@ -1,4 +1,6 @@
 
+import Image from 'next/image';
+
 interface Props {
   title: string;
   breadcrumb?: string;
@@ -9,9 +11,13 @@ interface Props {
 export function PageBanner({ title, breadcrumb, subtitle, bgImage = 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2000&auto=format&fit=crop' }: Props) {
   return (
     <div className="relative h-[40vh] min-h-[300px] flex items-center justify-center bg-brand-navy overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-overlay"
-        style={{ backgroundImage: `url(${bgImage})` }}
+      <Image
+        src={bgImage}
+        alt={title}
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover opacity-40 mix-blend-overlay"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-brand-navy to-transparent opacity-80" />
       

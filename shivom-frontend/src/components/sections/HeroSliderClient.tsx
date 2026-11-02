@@ -11,17 +11,27 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ISlider } from '@/types';
 
+import { useState, useEffect } from 'react';
+
 interface Props {
   slides: ISlider[];
 }
 
 export function HeroSliderClient({ slides }: Props) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const scrollToGroupSection = () => {
     document.getElementById('our-group-section')?.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
     });
   };
+
+  const visibleSlides = isMounted ? slides : (slides.length > 0 ? [slides[0]] : []);
 
   return (
     <div className="relative h-[100svh] w-full bg-brand-navy">
@@ -34,7 +44,7 @@ export function HeroSliderClient({ slides }: Props) {
         navigation
         className="h-full w-full"
       >
-        {slides.map((slide: ISlider, index: number) => {
+        {visibleSlides.map((slide: ISlider, index: number) => {
           const buttonText =
             slide.buttonText === 'Our Divisions'
               ? 'Our Group'
@@ -50,6 +60,8 @@ export function HeroSliderClient({ slides }: Props) {
                       fill
                       priority={index === 0}
                       loading={index === 0 ? undefined : 'lazy'}
+                      fetchPriority={index === 0 ? 'high' : 'low'}
+                      sizes="100vw"
                       className={`object-cover transition-transform duration-[10000ms] ${isActive ? 'scale-110' : 'scale-100'}`}
                     />
                   </div>

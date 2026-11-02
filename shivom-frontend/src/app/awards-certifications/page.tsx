@@ -1,15 +1,34 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import { PageBanner } from '@/components/layout/PageBanner';
 import { awardsService } from '@/services/awards.service';
 import Image from 'next/image';
 import { AwardIcon, FileCheck } from 'lucide-react';
 import { IAward } from '@/types';
 
-export const revalidate = 300;
+export default function AwardsPage() {
+  const [items, setItems] = useState<IAward[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState(false);
 
-export default async function AwardsPage() {
-  const allItems = await awardsService.getAwards();
-  const awards = allItems.filter((item: IAward) => item.type === 'award');
-  const certifications = allItems.filter((item: IAward) => item.type === 'certification');
+  useEffect(() => {
+    async function loadAwards() {
+      try {
+        const allItems = await awardsService.getAwards();
+        setItems(allItems);
+      } catch (error) {
+        console.error('[AwardsPage] Error loading dynamic recognitions:', error);
+        setApiError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadAwards();
+  }, []);
+
+  const awards = items.filter((item: IAward) => item.type === 'award');
+  const certifications = items.filter((item: IAward) => item.type === 'certification');
 
   const renderCard = (item: IAward) => (
     <div 
@@ -79,34 +98,77 @@ export default async function AwardsPage() {
           </div>
 
           <div className="space-y-20">
-            {awards.length > 0 && (
+            {loading ? (
+              // Pulsing skeletons during load state
               <div>
-                <h3 className="text-3xl font-bold text-brand-navy mb-10 flex items-center gap-4">
-                  <span>Accreditation & Awards</span>
-                  <span className="w-20 h-0.5 bg-brand-orange rounded-full" />
+                <h3 className="text-3xl font-bold text-brand-navy mb-10 flex items-center gap-4 animate-pulse">
+                  <span className="bg-gray-200 h-8 w-64 rounded" />
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {awards.map(renderCard)}
+                  {[1, 2, 3].map(n => (
+                    <div key={n} className="bg-white border border-gray-100 rounded-2xl p-8 h-80 animate-pulse flex flex-col justify-between">
+                      <div className="space-y-4">
+                        <div className="flex gap-4">
+                          <div className="w-12 h-12 rounded-xl bg-gray-250" />
+                          <div className="h-6 w-24 bg-gray-250 rounded" />
+                        </div>
+                        <div className="h-8 w-2/3 bg-gray-250 rounded" />
+                        <div className="h-4 w-full bg-gray-250 rounded" />
+                      </div>
+                      <div className="h-20 w-full bg-gray-250 rounded" />
+                    </div>
+                  ))}
                 </div>
               </div>
-            )}
+            ) : apiError ? (
+              // Empty skeleton/dim container when API is unavailable
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 opacity-35">
+                {[1, 2, 3].map(n => (
+                  <div key={n} className="bg-white border border-gray-150 rounded-2xl p-8 h-80 flex flex-col justify-between">
+                    <div className="space-y-4">
+                      <div className="flex gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-gray-100" />
+                        <div className="h-6 w-24 bg-gray-100 rounded" />
+                      </div>
+                      <div className="h-8 w-2/3 bg-gray-100 rounded" />
+                      <div className="h-4 w-full bg-gray-100 rounded" />
+                    </div>
+                    <div className="h-20 w-full bg-gray-100 rounded" />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <>
+                {awards.length > 0 && (
+                  <div>
+                    <h3 className="text-3xl font-bold text-brand-navy mb-10 flex items-center gap-4">
+                      <span>Accreditation & Awards</span>
+                      <span className="w-20 h-0.5 bg-brand-orange rounded-full" />
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                      {awards.map(renderCard)}
+                    </div>
+                  </div>
+                )}
 
-            {certifications.length > 0 && (
-              <div>
-                <h3 className="text-3xl font-bold text-brand-navy mb-10 flex items-center gap-4">
-                  <span>Compliance & Certifications</span>
-                  <span className="w-20 h-0.5 bg-gray-300 rounded-full" />
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {certifications.map(renderCard)}
-                </div>
-              </div>
-            )}
-            
-            {awards.length === 0 && certifications.length === 0 && (
-              <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                <p className="text-gray-500 text-lg font-medium">No recognitions found.</p>
-              </div>
+                {certifications.length > 0 && (
+                  <div>
+                    <h3 className="text-3xl font-bold text-brand-navy mb-10 flex items-center gap-4">
+                      <span>Compliance & Certifications</span>
+                      <span className="w-20 h-0.5 bg-gray-300 rounded-full" />
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                      {certifications.map(renderCard)}
+                    </div>
+                  </div>
+                )}
+                
+                {awards.length === 0 && certifications.length === 0 && (
+                  <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm">
+                    <p className="text-gray-500 text-lg font-medium">No recognitions found.</p>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

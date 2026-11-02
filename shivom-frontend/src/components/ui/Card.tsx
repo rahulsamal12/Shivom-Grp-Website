@@ -1,19 +1,18 @@
-'use client';
-
+import React from 'react';
 import { cn } from '@/lib/utils/cn';
-import { motion, HTMLMotionProps } from 'framer-motion';
 
-export function Card({ className, children, ...props }: HTMLMotionProps<"div">) {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export function Card({ className, children, ...props }: CardProps) {
   return (
-    <motion.div
-      whileHover={{ y: -5 }}
+    <div
       className={cn(
-        'rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden transition-all hover:shadow-xl',
+        'rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-[5px]',
         className
       )}
       {...props}
     >
-      {children as React.ReactNode}
-    </motion.div>
+      {children}
+    </div>
   );
 }

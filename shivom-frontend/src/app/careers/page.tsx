@@ -157,7 +157,7 @@ export default function CareersPage() {
 
   const validateForm = () => {
     const errors: Record<string, string> = {};
-    if (!formData.fullName.trim()) errors.fullName = 'Full Name is required.';
+    if (!formData.fullName.trim()) errors.fullName = 'Applicant Name is required.';
     if (!formData.email.trim()) {
       errors.email = 'Email Address is required.';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
@@ -166,12 +166,15 @@ export default function CareersPage() {
     if (!formData.phone.trim()) errors.phone = 'Phone Number is required.';
     if (!formData.currentLocation.trim()) errors.currentLocation = 'Current Location is required.';
     if (!formData.experience.trim()) errors.experience = 'Years of Experience is required.';
+    
     if (!resumeFile) {
       setFileError('Please upload your resume.');
-      return false;
+    } else {
+      setFileError(null);
     }
+    
     setFormErrors(errors);
-    return Object.keys(errors).length === 0;
+    return Object.keys(errors).length === 0 && !!resumeFile;
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -181,6 +184,7 @@ export default function CareersPage() {
     if (!validateForm()) return;
 
     const payload = new FormData();
+    payload.append("applicantName", formData.fullName);
     payload.append("fullName", formData.fullName);
     payload.append("email", formData.email);
     payload.append("phone", formData.phone);
@@ -277,7 +281,6 @@ export default function CareersPage() {
               <div className="mb-8 text-sm text-gray-600 space-y-1">
                 <p className="font-bold text-brand-navy text-base">Contact:</p>
                 <p className="font-semibold text-brand-navy">Mr. Satyam Singh</p>
-                <p>+91 8895865734</p>
                 <p>hr@shivomgroup.in</p>
               </div>
               <Button 
@@ -434,20 +437,13 @@ export default function CareersPage() {
                 </p>
               </div>
               
-              <div className="flex flex-col sm:flex-row md:flex-col gap-4 shrink-0 w-full md:w-auto">
-                <a 
-                  href="tel:+918895865734" 
-                  className="flex items-center justify-center gap-3 bg-white/10 hover:bg-brand-orange hover:text-white transition-all px-6 py-3 rounded-xl font-semibold text-sm cursor-pointer"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>+91 88958 65734</span>
-                </a>
+              <div className="shrink-0 w-full md:w-auto">
                 <a 
                   href="mailto:hr@shivomgroup.in" 
-                  className="flex items-center justify-center gap-3 bg-white/10 hover:bg-brand-orange hover:text-white transition-all px-6 py-3 rounded-xl font-semibold text-sm cursor-pointer"
+                  className="flex items-center justify-center gap-3 bg-brand-orange text-white hover:bg-brand-orange-light transition-all px-8 py-4 rounded-xl font-bold text-base cursor-pointer shadow-md"
                 >
-                  <Mail className="w-4 h-4" />
-                  <span>hr@shivomgroup.in</span>
+                  <Mail className="w-5 h-5" />
+                  <span>Email HR Team (hr@shivomgroup.in)</span>
                 </a>
               </div>
             </div>
@@ -509,7 +505,7 @@ export default function CareersPage() {
                     value={formData.phone} 
                     onChange={handleInputChange} 
                     error={formErrors.phone}
-                    placeholder="+91 99999 99999"
+                    placeholder="Enter phone number"
                     required 
                     aria-required="true"
                     disabled={isPending}

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { PageBanner } from '@/components/layout/PageBanner';
-import { TeamSection } from '@/components/sections/TeamSection';
+// TeamSection import preserved for future use — component files remain intact
+// import { TeamSection } from '@/components/sections/TeamSection';
 import { AboutClient } from '@/components/sections/AboutClient';
 import { homeService } from '@/services/home.service';
 
@@ -25,7 +26,7 @@ export default async function AboutPage() {
       <h1 className="sr-only">About Shivom Group - Company History, Leadership, and Infrastructure Services</h1>
       <PageBanner title="About Shivom Group" breadcrumb="About" />
       <AboutClient aboutData={aboutData} />
-      <TeamSection />
+      {/* TeamSection hidden — re-enable by uncommenting the import above and adding <TeamSection /> here */}
     </main>
   );
 }

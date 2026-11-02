@@ -4,13 +4,18 @@ import QueryProvider from "@/providers/QueryProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingContactButton } from "@/components/common/FloatingContactButton";
-import { InitialLoader } from "@/components/common/InitialLoader";
+import { FloatingHomeButton } from "@/components/ui/FloatingHomeButton";
+import dynamic from "next/dynamic";
 import Script from "next/script";
 import "./globals.css";
+
+const InitialLoader = dynamic(() => import("@/components/common/InitialLoader").then(mod => mod.InitialLoader));
 
 const epilogue = Epilogue({
   variable: "--font-epilogue",
   subsets: ["latin"],
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -61,12 +66,14 @@ export default function RootLayout({
     "@type": "Corporation",
     "name": "Shivom Group",
     "url": "https://shivomgroup.in",
-    "logo": "https://shivomgroup.in/logo.png",
+    "logo": "https://shivomgroup.in/logo.webp",
     "description": "Premier infrastructure, renewable energy, and PSC pole manufacturing enterprise in Odisha.",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "Plot No. 41, Sect. A, Zone B, Near KTM Showroom, Mancheswar",
       "addressLocality": "Bhubaneswar",
       "addressRegion": "Odisha",
+      "postalCode": "751010",
       "addressCountry": "IN"
     }
   };
@@ -75,15 +82,19 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={`${epilogue.variable} antialiased scroll-smooth`}>
+      <head>
+        <link rel="preconnect" href="https://apishivom.visital.co.in" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://apishivom.visital.co.in" />
+      </head>
       <body className="min-h-screen flex flex-col font-sans">
         <InitialLoader />
         {gaId && (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
-            <Script id="google-analytics" strategy="afterInteractive">
+            <Script id="google-analytics" strategy="lazyOnload">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
@@ -103,6 +114,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <FloatingContactButton />
+          <FloatingHomeButton />
         </QueryProvider>
       </body>
     </html>

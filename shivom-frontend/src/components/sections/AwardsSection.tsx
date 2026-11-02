@@ -1,15 +1,27 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import { awardsService } from '@/services/awards.service';
 import { AwardsSectionClient } from './AwardsSectionClient';
 import { IAward } from '@/types';
 
-export async function AwardsSection() {
-  let awards: IAward[] = [];
+export function AwardsSection() {
+  const [awards, setAwards] = useState<IAward[] | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  try {
-    awards = await awardsService.getAwards();
-  } catch {
-    // Return empty on API failure — client shows empty state
-  }
+  useEffect(() => {
+    async function loadAwards() {
+      try {
+        const data = await awardsService.getAwards();
+        setAwards(data);
+      } catch (error) {
+        console.error('[AwardsSection] Error fetching awards:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadAwards();
+  }, []);
 
   return (
     <section className="py-24 bg-white border-t border-gray-100">
@@ -24,7 +36,22 @@ export async function AwardsSection() {
           <div className="w-24 h-1 bg-brand-orange mx-auto rounded-full" />
         </div>
 
-        <AwardsSectionClient awards={awards} />
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[1, 2, 3, 4].map(n => (
+              <div key={n} className="bg-gray-50 border border-gray-100 rounded-xl p-6 h-64 animate-pulse flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="h-6 w-16 bg-gray-200 rounded" />
+                  <div className="h-4 w-32 bg-gray-200 rounded" />
+                  <div className="h-4 w-24 bg-gray-200 rounded" />
+                </div>
+                <div className="h-24 w-full bg-gray-200 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <AwardsSectionClient awards={awards || []} />
+        )}
       </div>
     </section>
   );

@@ -1,3 +1,6 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import { blogsService } from '@/services/blogs.service';
 import { SectionHeading } from '../ui/SectionHeading';
 import { ArrowRight } from 'lucide-react';
@@ -6,16 +9,45 @@ import Image from 'next/image';
 import { IBlog } from '@/types';
 import { Button } from '../ui/Button';
 
-export async function BlogSection() {
-  let blogs: IBlog[] = [];
+export function BlogSection() {
+  const [blogs, setBlogs] = useState<IBlog[] | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  try {
-    blogs = await blogsService.getBlogs();
-  } catch {
-    // Return null on API failure
+  useEffect(() => {
+    async function loadBlogs() {
+      try {
+        const fetched = await blogsService.getBlogs();
+        setBlogs(fetched);
+      } catch (error) {
+        console.error('[BlogSection] Error fetching blogs:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadBlogs();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-24 bg-white animate-pulse">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionHeading title="Latest Insights" subtitle="News &amp; Updates" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
+            {[1, 2].map(n => (
+              <div key={n} className="flex flex-col h-full space-y-4">
+                <div className="h-64 w-full bg-gray-200 rounded-2xl" />
+                <div className="h-4 w-32 bg-gray-200 rounded" />
+                <div className="h-6 w-3/4 bg-gray-200 rounded" />
+                <div className="h-16 w-full bg-gray-200 rounded" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
   }
 
-  if (blogs.length === 0) return null;
+  if (!blogs || blogs.length === 0) return null;
 
   const featuredBlogs = blogs.slice(0, 2);
 
@@ -34,6 +66,7 @@ export async function BlogSection() {
                   alt={blog.title}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold text-brand-navy uppercase tracking-wider shadow-sm">
                   {blog.category}

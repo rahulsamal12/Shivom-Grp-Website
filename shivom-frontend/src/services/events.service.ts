@@ -1,4 +1,3 @@
-import { cache } from 'react';
 import { apiClient } from '../lib/api/axios';
 import { transformEvent } from '../lib/transformers';
 import { IEvent, ListResponse, SingleResponse } from '@/types';
@@ -6,23 +5,28 @@ import { IEvent, ListResponse, SingleResponse } from '@/types';
 const WEBSITE_KEY = 'group';
 
 export const eventsService = {
-  getEvents: cache(async (): Promise<IEvent[]> => {
-    const response = await apiClient.get<ListResponse<IEvent>>(`/api/public/${WEBSITE_KEY}/events`);
-    if (Array.isArray(response.data?.data)) {
-      return response.data.data.map(transformEvent);
+  getEvents: async (): Promise<IEvent[]> => {
+    try {
+      const response = await apiClient.get<ListResponse<IEvent>>(`/api/public/${WEBSITE_KEY}/events`, { cache: 'no-store' });
+      if (Array.isArray(response.data?.data)) {
+        return response.data.data.map(transformEvent);
+      }
+    } catch (error) {
+      console.error('[eventsService] Error getting events:', error);
     }
     return [];
-  }),
+  },
 
-  getEventBySlug: cache(async (slug: string): Promise<IEvent | null> => {
+  getEventBySlug: async (slug: string): Promise<IEvent | null> => {
     try {
-      const response = await apiClient.get<SingleResponse<IEvent>>(`/api/public/${WEBSITE_KEY}/events/${slug}`);
+      const response = await apiClient.get<SingleResponse<IEvent>>(`/api/public/${WEBSITE_KEY}/events/${slug}`, { cache: 'no-store' });
       if (response.data?.data) {
         return transformEvent(response.data.data);
       }
       return null;
-    } catch {
+    } catch (error) {
+      console.error(`[eventsService] Error getting event by slug ${slug}:`, error);
       return null;
     }
-  })
+  }
 };

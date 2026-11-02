@@ -46,12 +46,12 @@ export function InitialLoader() {
         {/* Mobile responsive Logo sizing */}
         <div className="relative w-[140px] h-[50px] sm:w-[180px] sm:h-[64px] md:w-[220px] md:h-[78px] animate-logo-scale">
           <Image
-            src="/logo.png"
+            src="/logo.webp"
             alt="Shivom Group Logo"
             fill
             className="object-contain"
             priority
-          />
+           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
         </div>
 
         {/* Thin Brand Orange Loading Progress Line */}

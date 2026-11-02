@@ -3,7 +3,7 @@ import {
   ICareer, ISolarProduct, ISolarPromotion, IClient, IPage 
 } from '@/types';
 
-const BASE_UPLOAD_URL = 'https://apishivom.visital.co.in';
+const BASE_UPLOAD_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5099';
 
 export const resolveImageUrl = (path: string | undefined | null, fallback: string): string => {
   if (!path) return fallback;
@@ -17,17 +17,22 @@ export const resolveImageUrl = (path: string | undefined | null, fallback: strin
   return path;
 };
 
-export const transformSlider = (data: Partial<ISlider>): ISlider => ({
-  _id: data._id || Math.random().toString(),
-  title: data.title || '',
-  subtitle: data.subtitle || '',
-  description: data.description || '',
-  buttonText: data.buttonText || '',
-  buttonLink: data.buttonLink || '',
-  image: resolveImageUrl(data.image, 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=800'),
-  mobileImage: resolveImageUrl(data.mobileImage || data.image, 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=800'),
-  order: data.order || 0,
-});
+export const transformSlider = (data: Partial<ISlider>): ISlider => {
+  const transformed = {
+    _id: data._id || 'slider-fallback',
+    title: data.title || '',
+    subtitle: data.subtitle || '',
+    description: data.description || '',
+    buttonText: data.buttonText || '',
+    buttonLink: data.buttonLink || '',
+    image: resolveImageUrl(data.image, 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=800'),
+    mobileImage: resolveImageUrl(data.mobileImage || data.image, 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=800'),
+    order: data.order || 0,
+    status: data.status || 'active',
+    isActive: data.isActive !== undefined ? data.isActive : data.status !== 'inactive',
+  };
+  return transformed;
+};
 
 export const transformProject = (data: Partial<IProject>): IProject => {
   const defaultImg = 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=800';
@@ -152,6 +157,7 @@ export const transformClient = (data: Partial<IClient> & { websiteUrl?: string }
   _id: data._id || '',
   name: data.name || 'Client Name',
   logo: resolveImageUrl(data.logo, 'https://dummyimage.com/260x140/ffffff/0072bc.png&text=Client'),
+  websiteUrl: data.websiteUrl || data.website || '',
   website: data.websiteUrl || data.website || '',
   order: data.order || 0,
 });

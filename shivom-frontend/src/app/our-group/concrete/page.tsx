@@ -1,24 +1,13 @@
-export const revalidate = 300;
+'use client';
 
 import { DivisionHeroSlider } from '@/components/sections/DivisionHeroSlider';
 import Image from 'next/image';
-import { Factory, ShieldCheck, Award, Settings, Layers, Phone } from 'lucide-react';
+import { Factory, ShieldCheck, Award, Settings, Layers, Mail } from 'lucide-react';
 
-export default async function ConcretePage() {
-  const fallbackSlides = [
-    {
-      _id: 'concrete-fallback-1',
-      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000&auto=format&fit=crop',
-      title: 'Shivom Concrete Products',
-      subtitle: 'Manufacturing high-strength pre-stressed cement concrete (PSC) poles and structures.',
-      buttonText: 'Request Consultation',
-      buttonLink: '/contact'
-    }
-  ];
-
+export default function ConcretePage() {
   return (
     <>
-      <DivisionHeroSlider websiteKey="concrete" fallbackSlides={fallbackSlides} />
+      <DivisionHeroSlider websiteKey="concrete" />
       
       {/* Overview Section */}
       <section className="py-24 bg-white">
@@ -31,15 +20,15 @@ export default async function ConcretePage() {
               <h2 className="text-4xl font-bold text-brand-navy leading-tight mb-6">
                 Utility-Grade Infrastructure Products & PSC Pole Manufacturing
               </h2>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
+              <p className="text-gray-600 text-lg text-justify-content mb-6">
                 Shivom Concrete Products stands at the forefront of industrial manufacturing in Odisha. We are a premier manufacturer of prestressed concrete poles (PSC poles), utilizing advanced casting technology and a highly controlled curing process to deliver robust, weather-resistant, and high-tensile strength solutions for large-scale utility and power distribution networks.
               </p>
-              <p className="text-gray-600 text-lg leading-relaxed mb-8">
+              <p className="text-gray-600 text-lg text-justify-content mb-8">
                 Through strict quality control, manufacturing excellence, and high-capacity production lines, we ensure all products comply with the highest utility-grade infrastructure standards set by state discoms and corporate energy developers.
               </p>
               <div className="grid grid-cols-2 gap-6 border-t border-gray-100 pt-8">
                 <div>
-                  <div className="text-3xl font-bold text-brand-blue mb-1">500+</div>
+                  <div className="text-3xl font-bold text-brand-blue mb-1">200+</div>
                   <div className="text-sm text-gray-500 font-medium">Daily Production Capacity</div>
                 </div>
                 <div>
@@ -56,7 +45,7 @@ export default async function ConcretePage() {
                 fill
                 loading="lazy"
                 className="object-cover"
-              />
+               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
               <div className="absolute inset-0 bg-brand-navy/30 mix-blend-multiply" />
               <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-6 rounded-xl border border-gray-150 shadow-lg">
                 <div className="flex items-center gap-4">
@@ -95,7 +84,7 @@ export default async function ConcretePage() {
                 <Layers className="w-6 h-6" />
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-4">8 Meter PSC Pole</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-600 text-justify-content">
                 Standard prestressed concrete poles optimized for low-tension (LT) rural electrification networks, service lines, and domestic distribution layouts.
               </p>
             </div>
@@ -105,7 +94,7 @@ export default async function ConcretePage() {
                 <Layers className="w-6 h-6" />
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-4">9 Meter PSC Pole</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-600 text-justify-content">
                 High-capacity prestressed concrete poles designed for 11kV and 33kV high-tension (HT) power lines, providing exceptional wind-load resistance.
               </p>
             </div>
@@ -115,7 +104,7 @@ export default async function ConcretePage() {
                 <Settings className="w-6 h-6" />
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-4">Customized PSC Pole</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-600 text-justify-content">
                 Tailored precast concrete poles and modular infrastructure supports manufactured to client specifications for heavy industrial utility zones.
               </p>
             </div>
@@ -129,7 +118,7 @@ export default async function ConcretePage() {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">State-of-the-Art Production Facility</h2>
-            <p className="text-gray-300 text-lg leading-relaxed mb-12">
+            <p className="text-gray-300 text-lg text-justify-content mb-12">
               Our concrete manufacturing yard features specialized casting beds, high-tensile wire tensioners, and a dedicated curing process that guarantees maximum structural load capacity.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-left">
@@ -148,7 +137,7 @@ export default async function ConcretePage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-xl mb-1">Casting Beds</h4>
-                  <p className="text-sm text-gray-400">Multiple casting beds operating in parallel to support 500+ poles/day capacity.</p>
+                  <p className="text-sm text-gray-400">Multiple casting beds operating in parallel to support 200+ poles/day capacity.</p>
                 </div>
               </div>
               <div className="flex gap-4 items-start">
@@ -184,11 +173,11 @@ export default async function ConcretePage() {
               
               <div className="shrink-0 w-full md:w-auto">
                 <a 
-                  href="tel:+916204929709" 
-                  className="flex items-center justify-center gap-3 bg-brand-navy hover:bg-brand-orange text-white transition-colors px-8 py-4 rounded-xl font-bold text-base cursor-pointer shadow-md text-center"
+                  href="mailto:info@shivomgroup.in" 
+                  className="flex items-center justify-center gap-3 bg-brand-navy hover:bg-brand-orange text-white transition-colors px-8 py-4 rounded-xl font-bold text-base cursor-pointer shadow-md"
                 >
-                  <Phone className="w-5 h-5 shrink-0" />
-                  <span>Mr. Sunil Kumar Nayak +91 6204929709</span>
+                  <Mail className="w-5 h-5" />
+                  <span>Email Manufacturing Team</span>
                 </a>
               </div>
             </div>

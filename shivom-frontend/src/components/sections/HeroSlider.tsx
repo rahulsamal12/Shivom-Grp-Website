@@ -1,28 +1,42 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import { slidersService } from '@/services/sliders.service';
 import { HeroSliderClient } from './HeroSliderClient';
 import { ISlider } from '@/types';
 
-const FALLBACK_SLIDES: ISlider[] = [
-  {
-    _id: 'fallback-1',
-    image:
-      'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2000&auto=format&fit=crop',
-    title: "Building Tomorrow's Infrastructure",
-    subtitle: 'Government-grade utility and civil engineering projects across Odisha',
-    order: 1,
-  } as ISlider,
-];
+export function HeroSlider() {
+  const [slides, setSlides] = useState<ISlider[] | null>(null);
+  const [loading, setLoading] = useState(true);
 
-export async function HeroSlider() {
-  let slides: ISlider[] = [];
+  useEffect(() => {
+    async function loadSliders() {
+      try {
+        const fetched = await slidersService.getSliders('group');
+        setSlides(fetched);
+      } catch (error) {
+        console.error('[HeroSlider] Error fetching sliders:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadSliders();
+  }, []);
 
-  try {
-    slides = await slidersService.getSliders('group');
-  } catch {
-    // Fall back to static slides on API failure
+  if (loading) {
+    return (
+      <div className="relative h-[100svh] w-full bg-brand-navy flex items-center justify-center animate-pulse">
+        <div className="space-y-4 text-center">
+          <div className="h-8 w-64 bg-white/20 rounded mx-auto" />
+          <div className="h-4 w-96 bg-white/10 rounded mx-auto" />
+        </div>
+      </div>
+    );
   }
 
-  const displaySlides = slides.length > 0 ? slides : FALLBACK_SLIDES;
+  if (!slides || slides.length === 0) {
+    return null;
+  }
 
-  return <HeroSliderClient slides={displaySlides} />;
+  return <HeroSliderClient slides={slides} />;
 }

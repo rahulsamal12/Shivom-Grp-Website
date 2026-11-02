@@ -1,4 +1,3 @@
-import { cache } from 'react';
 import { apiClient } from '../lib/api/axios';
 const WEBSITE_KEY = 'group';
 
@@ -14,12 +13,13 @@ type HomeDataResponse = {
 };
 
 export const homeService = {
-  getHomeData: cache(async (): Promise<HomeDataResponse> => {
-    // According to Postman, Home might just be a Page layout or custom home response
-    // For now, mapping GET /api/public/group/home
-    const response = await apiClient.get<HomeDataResponse>(`/api/public/${WEBSITE_KEY}/home`);
-    // Example payload could contain sections, sliders, projects. 
-    // This is dependent on exact CMS payload, applying basic transforms
-    return response.data;
-  })
+  getHomeData: async (): Promise<HomeDataResponse> => {
+    try {
+      const response = await apiClient.get<HomeDataResponse>(`/api/public/${WEBSITE_KEY}/home`, { cache: 'no-store' });
+      return response.data;
+    } catch (error) {
+      console.error('[homeService] Error getting home data:', error);
+      return {};
+    }
+  }
 };

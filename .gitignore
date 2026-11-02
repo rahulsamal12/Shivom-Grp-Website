@@ -26,3 +26,19 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+
+# Temporary test and diagnostic reports
+lh-report-*.json
+**/lh-report-*.json
+solar-report*.json
+**/solar-report*.json
+.tmp-*.mjs
+**/.tmp-*.mjs
+debug-lcp.py
+**/debug-lcp.py
+parse-lcp.py
+**/parse-lcp.py
+parse-lh.py
+**/parse-lh.py
+scratch/
+**/scratch/

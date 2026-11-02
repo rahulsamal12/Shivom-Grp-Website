@@ -33,7 +33,7 @@ const websites = [
     metaDescription: "Official group website CMS content",
     contactEmail: "info@example.com",
     contactPhone: "+91 00000 00000",
-    address: "Odisha, India"
+    address: "Plot No. 41, Sect. A, Zone B, Near KTM Showroom, Mancheswar, Bhubaneswar – 751010, Odisha, India"
   },
   {
     websiteKey: "solar",
