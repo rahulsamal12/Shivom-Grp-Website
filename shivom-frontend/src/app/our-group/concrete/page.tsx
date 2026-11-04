@@ -78,7 +78,7 @@ export default function ConcretePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-white p-8 rounded-xl border border-gray-200/60 shadow-sm hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 rounded-lg bg-brand-blue/10 flex items-center justify-center text-brand-blue mb-6">
                 <Layers className="w-6 h-6" />
@@ -96,6 +96,16 @@ export default function ConcretePage() {
               <h3 className="text-2xl font-bold text-brand-navy mb-4">9 Meter PSC Pole</h3>
               <p className="text-gray-600 text-justify-content">
                 High-capacity prestressed concrete poles designed for 11kV and 33kV high-tension (HT) power lines, providing exceptional wind-load resistance.
+              </p>
+            </div>
+
+            <div className="bg-white p-8 rounded-xl border border-gray-200/60 shadow-sm hover:shadow-lg transition-all duration-300">
+              <div className="w-12 h-12 rounded-lg bg-brand-blue/10 flex items-center justify-center text-brand-blue mb-6">
+                <Settings className="w-6 h-6" />
+              </div>
+              <h3 className="text-2xl font-bold text-brand-navy mb-4">10 Meter PSC Pole</h3>
+              <p className="text-gray-600 text-justify-content">
+                Heavy-duty 10 Meter PSC Poles engineered for medium-voltage overhead distribution networks, offering superior structural strength, durability, and long service life.
               </p>
             </div>
 
